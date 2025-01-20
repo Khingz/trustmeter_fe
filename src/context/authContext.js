@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import AuthService from "../service/authService";
-import { getFromLocalStorage, saveToLocalStorage } from "../utils/localStorage";
+import { deleteFromLocalStorage, getFromLocalStorage, saveToLocalStorage } from "../utils/localStorage";
 
 export const AuthContext = createContext();
 
@@ -36,6 +36,17 @@ export const AuthProvider = ({ children }) => {
 		}
 	};
 
+	const logout = async () => {
+		try {
+			setIsLoggedIn(false);
+			setCurrentUser(null);
+			deleteFromLocalStorage("access_token");
+			deleteFromLocalStorage("currentUser");
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const getCurrentUser = async () => {
 		try {
 			const currentUser = getFromLocalStorage("currentUser");
@@ -44,8 +55,6 @@ export const AuthProvider = ({ children }) => {
 				setIsLoggedIn(true);
 			}
 			const isValidLoggin = await AuthService.getCurrentUser();
-			console.log(isValidLoggin);
-
 			if (!isValidLoggin) {
 				setIsLoggedIn(false);
 				setCurrentUser(null);
@@ -61,7 +70,16 @@ export const AuthProvider = ({ children }) => {
 
 	return (
 		<AuthContext.Provider
-			value={{ token, setToken, isLoggedIn, setIsLoggedIn, login, currentUser, register }}
+			value={{
+				token,
+				setToken,
+				isLoggedIn,
+				setIsLoggedIn,
+				login,
+				currentUser,
+				register,
+				logout
+			}}
 		>
 			{children}
 		</AuthContext.Provider>

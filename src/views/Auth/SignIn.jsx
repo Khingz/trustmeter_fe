@@ -4,7 +4,10 @@ import { IoMdClose } from "react-icons/io";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { useAuth } from "../../context/authContext";
-import { deleteFromSessionStorage, getFromSessionStorage } from "../../utils/localStorage";
+import {
+	deleteFromSessionStorage,
+	getFromSessionStorage,
+} from "../../utils/localStorage";
 
 const SignIn = () => {
 	const navigate = useNavigate();
@@ -104,6 +107,12 @@ const SignIn = () => {
 					</Link>
 					<div className="w-1/4 border-t border-t-gray-300"></div>
 				</div>
+				<Link
+					to={"/forgot-password"}
+					className="text-center mb-6>Categories text-indigo-600 flex justify-center items-center"
+				>
+					Forgot Password?
+				</Link>
 				<div className="absolute top-[15px] right-[20px] text-3xl">
 					<Link to={"/"}>
 						<IoMdClose />
