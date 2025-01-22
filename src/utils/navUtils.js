@@ -6,6 +6,10 @@ export const getNavLinkClass = (isActive) => {
 
 export const navLinks = [
 	{
+		name: "Home",
+		url: "/"
+	},
+	{
 		name: "Leave a Review",
 		url: "/review",
 	},

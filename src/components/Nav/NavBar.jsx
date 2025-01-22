@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import NavMenuDesktop from "./NavMenuDesktop";
 import { useCustomNav } from "../../context/navContext";
-import SearchBar from "../SearchBar";
+import NavMenuMobile from "./NavMenuMobile";
 
 const NavBar = () => {
 	const [isScrolled, setIsScrolled] = useState(false);
@@ -40,15 +40,15 @@ const NavBar = () => {
 					)}
 				</div>
 
-				{/* {isMobile && (
-				<div
-					className={`absolute top-0 w-screen min-h-screen transition-all duration-500 ease-in-out ${
-						isNavOpen ? "left-0" : "-left-[1000px]"
-					}`}
-				>
-					<NavMenuMobile />
-				</div>
-			)} */}
+				{isMobile && (
+					<div
+						className={`absolute top-0 w-screen min-h-screen transition-all duration-500 ease-in-out ${
+							isNavOpen ? "left-0" : "-left-[1000px]"
+						}`}
+					>
+						<NavMenuMobile />
+					</div>
+				)}
 			</div>
 		</nav>
 	);
