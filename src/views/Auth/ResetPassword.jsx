@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { useAuth } from "../../context/authContext";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const ResetPassword = () => {
 	const navigate = useNavigate();
@@ -11,24 +12,24 @@ const ResetPassword = () => {
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [error, setError] = useState(null);
-    const { token_id } = useParams();
+	const { token_id } = useParams();
+	const { resetPassword } = useAuth();
+	const [loading, setLoading] = useState(false);
 
 	const handleSubmit = async (e) => {
+		setLoading(true);
 		try {
 			e.preventDefault();
 			if (password !== confirmPassword) {
 				setError("Passwords do not match");
 				return;
 			}
-            if (!token_id) {
-                setError("Invalid token");
-                return
-            }
-            console.log(token_id);
-            
+			await resetPassword(token_id, password);
 			navigate("/password-reset-successful");
 		} catch (error) {
 			setError(error.message);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -90,11 +91,13 @@ const ResetPassword = () => {
 								</div>
 							</div>
 						</div>
-						<input
+						<button
 							type="submit"
-							value={"Submit"}
 							className="bg-indigo-600 p-2 w-full rounded text-white text-lg mt-3"
-						/>
+							disabled={loading}
+						>
+							{loading ? <LoadingSpinner /> : "Submit"}
+						</button>
 					</form>
 				</div>
 				<div className="absolute top-[15px] right-[20px] text-3xl">

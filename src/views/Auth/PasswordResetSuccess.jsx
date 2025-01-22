@@ -1,4 +1,3 @@
-import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 import successImg from "../../assets/images/successful.svg";
 

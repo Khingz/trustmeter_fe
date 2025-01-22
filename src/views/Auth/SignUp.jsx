@@ -4,6 +4,7 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { useAuth } from "../../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const SignUp = () => {
 	const navigate = useNavigate();
@@ -13,8 +14,10 @@ const SignUp = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState(null);
 	const { register } = useAuth();
+	const [loading, setLoading] = useState(false);
 
 	const handleSubmit = async (e) => {
+		setLoading(true);
 		try {
 			e.preventDefault();
 			const credentials = {
@@ -28,6 +31,8 @@ const SignUp = () => {
 			navigate("/login");
 		} catch (error) {
 			setError(error.message);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -99,11 +104,13 @@ const SignUp = () => {
 								</div>
 							</div>
 						</div>
-						<input
+						<button
 							type="submit"
-							value={"Register"}
 							className="bg-indigo-600 p-2 w-full rounded text-white text-lg mt-3"
-						/>
+							disabled={loading}
+						>
+							{loading ? <LoadingSpinner /> : "Register"}
+						</button>
 					</form>
 				</div>
 				<div className="flex justify-center items-center gap-2 my-4">

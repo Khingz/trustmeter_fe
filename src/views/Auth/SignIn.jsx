@@ -8,6 +8,7 @@ import {
 	deleteFromSessionStorage,
 	getFromSessionStorage,
 } from "../../utils/localStorage";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const SignIn = () => {
 	const navigate = useNavigate();
@@ -16,8 +17,10 @@ const SignIn = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState(null);
 	const { login } = useAuth();
+	const [loading, setLoading] = useState(false);
 
 	const handleLogin = async (e) => {
+		setLoading(true);
 		try {
 			e.preventDefault();
 			const credentials = {
@@ -29,6 +32,8 @@ const SignIn = () => {
 			navigate(redirectUrl);
 		} catch (error) {
 			setError(error.message);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -89,11 +94,13 @@ const SignIn = () => {
 								</div>
 							</div>
 						</div>
-						<input
+						<button
 							type="submit"
-							value={"Login"}
 							className="bg-indigo-600 p-2 w-full rounded text-white text-lg mt-3"
-						/>
+							disabled={loading}
+						>
+							{loading ? <LoadingSpinner /> : "Login"}
+						</button>
 					</form>
 				</div>
 				<div className="flex justify-center items-center gap-2 my-4">

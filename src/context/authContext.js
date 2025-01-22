@@ -1,6 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import AuthService from "../service/authService";
-import { deleteFromLocalStorage, getFromLocalStorage, saveToLocalStorage } from "../utils/localStorage";
+import {
+	deleteFromLocalStorage,
+	getFromLocalStorage,
+	saveToLocalStorage,
+} from "../utils/localStorage";
 
 export const AuthContext = createContext();
 
@@ -64,6 +68,31 @@ export const AuthProvider = ({ children }) => {
 		}
 	};
 
+	const forgotPassword = async (email) => {
+		try {
+			const response = await AuthService.passwordResetRequest(email);
+			if (response.error) {
+				throw new Error(response.message);
+			}
+			return response;
+		} catch (error) {
+			console.log(error);
+			throw error;
+		}
+	};
+
+	const resetPassword = async (token, email) => {
+		try {
+			const response = await AuthService.resetPasword(token, email);
+			if (response.error) {
+				throw new Error(response.message);
+			}
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	};
+
 	useEffect(() => {
 		getCurrentUser();
 	}, []);
@@ -78,7 +107,9 @@ export const AuthProvider = ({ children }) => {
 				login,
 				currentUser,
 				register,
-				logout
+				logout,
+				forgotPassword,
+				resetPassword,
 			}}
 		>
 			{children}

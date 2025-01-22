@@ -2,26 +2,38 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { useAuth } from "../../context/authContext";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const ForgotPassword = () => {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [error, setError] = useState(null);
-	const { login } = useAuth();
+	const { forgotPassword } = useAuth();
+	const [loading, setLoading] = useState(false);
 
 	const handleForgotPassword = async (e) => {
+		setLoading(true);
 		try {
 			e.preventDefault();
-            navigate("/reset-link-successful");
+			if (!email) {
+				setError("Email is required");
+				return;
+			}
+			await forgotPassword(email);
+			navigate("/reset-link-successful");
 		} catch (error) {
 			setError(error.message);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	return (
 		<div className="w-full min-h-screen bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
 			<div className="w-[90%] md:w-1/3 bg-gray-50 rounded p-4 md:p-6 relative">
-				<h3 className="text-gray-700 font-bold text-2xl text-center">Forgot Password</h3>
+				<h3 className="text-gray-700 font-bold text-2xl text-center">
+					Forgot Password
+				</h3>
 				<p className="text-lg text-center text-gray-700 mt-2">
 					Enter your email to reset your password
 				</p>
@@ -43,11 +55,13 @@ const ForgotPassword = () => {
 								onChange={(e) => setEmail(e.target.value)}
 							/>
 						</div>
-						<input
+						<button
 							type="submit"
-							value={"Send reset link"}
 							className="bg-indigo-600 p-2 w-full rounded text-white text-lg mt-3"
-						/>
+							disabled={loading}
+						>
+							{loading ? <LoadingSpinner /> : "Reset Password"}
+						</button>
 					</form>
 				</div>
 				<div className="absolute top-[15px] right-[20px] text-3xl">
