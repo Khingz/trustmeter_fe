@@ -6,7 +6,7 @@ const HeroSection = () => {
 	const { isMobile } = useCustomNav();
 
 	return (
-		<div className="flex md:w-4/5 px-3 mx-auto pt-32 pb-10 justify-center items-center gap-2">
+		<div className="flex md:w-5/6 px-3 mx-auto pt-24 md:pt-32 pb-10 justify-center items-center gap-2">
 			{/* Left hero section */}
 			<div className="md:w-1/2 flex flex-col justify-start items-start gap-3">
 				<h2 className=" text-4xl md:text-7xl font-extrabold">Unbaised Review To Make You Choose Wisely</h2>

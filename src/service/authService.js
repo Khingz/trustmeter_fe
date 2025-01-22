@@ -12,14 +12,10 @@ const AuthService = {
 	},
 	register: async (credentials) => {
 		try {
-			console.log(credentials);
-
 			const response = await apiClient.post(
 				"/api/v1/auth/register",
 				credentials
 			);
-			console.log(response);
-
 			return response.data;
 		} catch (error) {
 			const errorMsg = error?.response?.data?.message;
@@ -57,7 +53,6 @@ const AuthService = {
 				token,
 				password,
 			});
-			console.log(response);
 			return response.data;
 		} catch (error) {
 			return { error: true, message: error?.response?.data?.message };
