@@ -2,10 +2,10 @@ import { IoMdStar } from "react-icons/io";
 
 const StarRating = ({ rating }) => {
 	const getStarColor = () => {
-		if (rating >= 4.5) return "text-green-500"; // Excellent
-		if (rating >= 3) return "text-yellow-400"; // Good
-		if (rating >= 2) return "text-red-500"; // Good
-		return "text-red-700"; // Poor
+		if (rating >= 4.5) return "text-green-500";
+		if (rating >= 3) return "text-yellow-400";
+		if (rating >= 2) return "text-red-500";
+		return "text-red-700";
 	};
 
 	return (

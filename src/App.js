@@ -19,7 +19,7 @@ function App() {
 			<Router>
 				<Routes>
 					{/* Routes that does not require login to be accessed but should not be accessed when logedin */}
-					<Route path="/" element={<PublicRoute />}>
+					<Route element={<PublicRoute />}>
 						<Route path="login" element={<SignIn />} />
 						<Route path="register" element={<SignUp />} />
 						<Route path="forgot-password" element={<ForgotPassword/>} />

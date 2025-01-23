@@ -11,7 +11,7 @@ const NavMenuDesktop = () => {
 				<NavLink
 					key={index}
 					to={link.url}
-					className={`${({ isActive }) => getNavLinkClass(isActive)}`}
+					className={`${({ isActive }) => getNavLinkClass(isActive)} text-xl font-normal`}
 				>
 					{link.name}
 				</NavLink>

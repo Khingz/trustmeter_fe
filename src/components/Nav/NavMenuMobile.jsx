@@ -24,7 +24,7 @@ const NavMenuMobile = () => {
 		return () => {
 			setIsNavOpen(false);
 		};
-        // eslint-disable-next-line
+		// eslint-disable-next-line
 	}, []);
 	return (
 		<div className="bg-indigo-600 w-full h-screen text-white">
@@ -43,6 +43,7 @@ const NavMenuMobile = () => {
 								getNavLinkClass(
 									isActive
 								)} flex justify-start items-center gap-5`}
+							onClick={() => setIsNavOpen(false)}
 						>
 							{navMenuIcon[index]}
 							<span className="text-xl">{link.name}</span>
@@ -55,6 +56,7 @@ const NavMenuMobile = () => {
 							<NavLink
 								to={"/profile"}
 								className="flex justify-start items-center gap-4"
+								onClick={() => setIsNavOpen(false)}
 							>
 								<div className="w-[40px] h-[40px] rounded-full bg-white flex justify-center items-center text-indigo-600 font-bold text-xl">
 									{currentUser && currentUser.name[0].toUpperCase()}
@@ -78,12 +80,14 @@ const NavMenuMobile = () => {
 							<NavLink
 								to="/register"
 								className="block border py-2 text-xl text-center mb-4"
+								onClick={() => setIsNavOpen(false)}
 							>
 								Register
 							</NavLink>
 							<NavLink
 								to="/login"
 								className="block border py-2 text-xl text-center mb-4"
+								onClick={() => setIsNavOpen(false)}
 							>
 								Login
 							</NavLink>

@@ -11,13 +11,13 @@ const CurrentUserProfile = () => {
 	};
 
 	return (
-		<div>
+		<div className="mt-24">
 			<h1>
 				Hello{" "}
 				{currentUser &&
 					currentUser?.name.split(" ")[0].charAt(0).toUpperCase() +
 						currentUser?.name.split(" ")[0].slice(1)}{" "}
-				{", "} Welcome
+				{"👋, "} Welcome
 			</h1>
 			<button className="p-2 bg-purple-600 text-white" onClick={handleLogout}>Logout</button>
 		</div>
