@@ -7,3 +7,9 @@ export const handleScroll = (setIsScrolled) => {
 		setIsScrolled(false);
 	}
 };
+
+
+export function isValidEmail(email) {
+	// Simple email validation check
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}

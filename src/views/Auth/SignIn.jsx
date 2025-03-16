@@ -9,20 +9,46 @@ import {
 	getFromSessionStorage,
 } from "../../utils/localStorage";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import ErrorAlert from "../../components/common/ErrorAlert";
+import { isValidEmail } from "../../utils";
+import { AnimatePresence } from "framer-motion";
 
 const SignIn = () => {
 	const navigate = useNavigate();
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [formData, setFormData] = useState({
+		email: "",
+		password: "",
+	});
 	const [error, setError] = useState(null);
 	const { login } = useAuth();
 	const [loading, setLoading] = useState(false);
 
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+
+		setFormData((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+		setError("");
+	};
+
 	const handleLogin = async (e) => {
 		setLoading(true);
+		const { email, password } = formData;
+
 		try {
 			e.preventDefault();
+
+			if (!password || !email) {
+				setError("Email and password is required");
+				return;
+			}
+			if (!isValidEmail(email)) {
+				setError("Please enter a valid email");
+				return;
+			}
 			const credentials = {
 				email,
 				password,
@@ -46,14 +72,13 @@ const SignIn = () => {
 	return (
 		<div className="w-full min-h-screen bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
 			<div className="w-[90%] md:w-1/3 bg-gray-50 rounded p-4 md:p-6 relative">
-				<h2 className="text-indigo-600 font-bold text-3xl text-center mb-2">
-					TrustMeter
-				</h2>
 				<h3 className="text-gray-700 font-bold text-2xl text-center">Login</h3>
 				<p className="text-lg text-center text-gray-700">
 					Enter your login details
 				</p>
-				{error && <p className="text-center text-red-500 mt-2">{error}</p>}
+				<AnimatePresence>
+					{error && <ErrorAlert message={error} />}
+				</AnimatePresence>
 				<div className="my-6">
 					<form onSubmit={handleLogin}>
 						<div className="my-2">
@@ -64,11 +89,12 @@ const SignIn = () => {
 								Email
 							</label>
 							<input
-								type="email"
+								type="text"
 								id="email"
+								name="email"
 								placeholder="Enter your email"
 								className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-								onChange={(e) => setEmail(e.target.value)}
+								onChange={handleChange}
 							/>
 						</div>
 						<div className="my-2">
@@ -82,9 +108,10 @@ const SignIn = () => {
 								<input
 									type={isPasswordVisible ? "text" : "password"}
 									id="password"
+									name="password"
 									placeholder="Enter your password"
 									className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-									onChange={(e) => setPassword(e.target.value)}
+									onChange={handleChange}
 								/>
 								<div
 									className="absolute inset-y-0 right-2 flex items-center text-indigo-600 text-lg cursor"

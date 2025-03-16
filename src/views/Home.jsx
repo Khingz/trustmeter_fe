@@ -3,14 +3,23 @@ import HeroSection from "../components/Home/HeroSection";
 import SearchSection from "../components/Home/SearchSection";
 import RecentReviews from "../components/Home/RecentReviews";
 import CategorySection from "../components/Home/CategorySection";
+import FadeInSection from "../components/common/FadeInSection";
 
 const Home = () => {
 	return (
 		<div>
 			<HeroSection />
-            <SearchSection />
-            <RecentReviews />
-            <CategorySection />
+			<FadeInSection>
+				<SearchSection />
+			</FadeInSection>
+
+			<FadeInSection>
+				<RecentReviews />
+			</FadeInSection>
+
+			<FadeInSection>
+				<CategorySection />
+			</FadeInSection>
 		</div>
 	);
 };
