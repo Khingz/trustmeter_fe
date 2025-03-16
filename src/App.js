@@ -12,6 +12,7 @@ import ResetLinkSuccessful from "./views/Auth/ResetLinkSuccessful";
 import PasswordResetSuccess from "./views/Auth/PasswordResetSuccess";
 import ResetPassword from "./views/Auth/ResetPassword";
 import NotFoundPage from "./views/404";
+import ComingSoonPage from "./views/ComingSoon";
 
 function App() {
 	return (
@@ -30,10 +31,14 @@ function App() {
 					{/* Routes that require login to be accessed */}
 					<Route element={<ProtectedRoute />}>
 						<Route path="/profile" element={<CurrentUserProfile />} />
+						<Route path="/profile" element={<CurrentUserProfile />} />
 					</Route>
 					{/* Other routes that can be accessed whether logged in or not */}
 					<Route path="/" element={<MainLayout />}>
 						<Route index element={<Home />} />
+						<Route path="/review" element={<ComingSoonPage />} />
+						<Route path="/categories" element={<ComingSoonPage />} />
+
 					</Route>
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
