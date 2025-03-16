@@ -17,7 +17,7 @@ const RecentReviews = () => {
 			<div className="my-10 text-center">
 				<Link
 					to={"/reviews"}
-					className="text-white bg-indigo-600 rounded-lg py-3 px-6 "
+					className="text-white bg-indigo-600 rounded-lg py-3 px-6 transition-colors duration-300 hover:bg-indigo-500"
 				>
 					See more reviews
 				</Link>

@@ -50,8 +50,6 @@ const SignUp = () => {
 				email,
 				password,
 			};
-			console.log(credentials);
-
 			await register(credentials);
 			navigate("/login");
 		} catch (error) {
@@ -65,7 +63,7 @@ const SignUp = () => {
 		<div className="w-full min-h-screen bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
 			<div className="w-[90%] md:w-1/3 bg-gray-50 rounded p-4 md:p-6 relative">
 				<h3 className="text-gray-700 font-bold text-2xl text-center">
-					Create an account
+					Create An Account
 				</h3>
 				<p className="text-lg text-center text-gray-700">
 					Enter your correct details to create an account
@@ -133,7 +131,7 @@ const SignUp = () => {
 						</div>
 						<button
 							type="submit"
-							className="bg-indigo-600 p-2 w-full rounded text-white text-lg mt-3"
+							className="bg-indigo-600 p-2 w-full rounded text-white text-lg mt-3 transition-colors duration-300 hover:bg-indigo-500"
 							disabled={loading}
 						>
 							{loading ? <LoadingSpinner /> : "Register"}

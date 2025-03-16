@@ -16,7 +16,7 @@ const HeroSection = () => {
 					We break things down with clear insights, fair perspectives, and
 					honest analysis—so you can make the best decision with confidence.
 				</p>
-				<button className="bg-indigo-600 p-2 md:px-4 py-3 text-white rounded">
+				<button className="bg-indigo-600 p-2 md:px-4 py-3 text-white font-extralight rounded transition-colors duration-300 hover:bg-indigo-500">
 					See Top Reviews
 				</button>
 			</div>

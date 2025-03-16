@@ -123,7 +123,7 @@ const SignIn = () => {
 						</div>
 						<button
 							type="submit"
-							className="bg-indigo-600 p-2 w-full rounded text-white text-lg mt-3"
+							className="bg-indigo-600 p-2 w-full rounded text-white text-lg mt-3 transition-colors duration-300 hover:bg-indigo-500"
 							disabled={loading}
 						>
 							{loading ? <LoadingSpinner /> : "Login"}

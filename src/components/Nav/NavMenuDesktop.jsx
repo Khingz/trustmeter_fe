@@ -11,7 +11,7 @@ const NavMenuDesktop = () => {
 				<NavLink
 					key={index}
 					to={link.url}
-					className={`${({ isActive }) => getNavLinkClass(isActive)} text-xl font-normal`}
+					className={`${({ isActive }) => getNavLinkClass(isActive)} text-xl font-normal transition-transform duration-300 hover:scale-105`}
 				>
 					{link.name}
 				</NavLink>
@@ -24,7 +24,7 @@ const NavMenuDesktop = () => {
 							className={`${({ isActive }) =>
 								getNavLinkClass(
 									isActive
-								)} bg-indigo-600 py-2 px-4 rounded text-white`}
+								)}  py-2 px-4 rounded text-indigo-600 transition-transform duration-300 hover:scale-105`}
 						>
 							Login
 						</NavLink>
@@ -33,7 +33,7 @@ const NavMenuDesktop = () => {
 							className={`${({ isActive }) =>
 								getNavLinkClass(
 									isActive
-								)} border border-indigo-600 py-2 px-4 rounded`}
+								)} bg-indigo-600 py-2 px-4 rounded text-white transition-colors duration-300 hover:bg-indigo-500`}
 						>
 							Register
 						</NavLink>{" "}
@@ -41,7 +41,7 @@ const NavMenuDesktop = () => {
 				) : (
 					<Link
 						to={"/profile"}
-						className="flex justify-start items-center gap-2"
+						className="flex justify-start items-center gap-2 transition-transform duration-300 hover:scale-105"
 					>
 						<div className="w-[40px] h-[40px] rounded-full bg-purple-600 flex justify-center items-center text-white font-bold text-xl">
 							{currentUser && currentUser.name[0].toUpperCase()}

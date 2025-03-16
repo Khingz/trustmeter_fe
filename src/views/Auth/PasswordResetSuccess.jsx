@@ -10,7 +10,7 @@ const PasswordResetSuccess = () => {
 					Your password has been reset <span className="block text-gray-800 font-bold text-2xl md:text-3xl tracking-wide">Successfully</span>
 				</p>
                 <div className="flex flex-col justify-center items-center gap-3 text-gray-700 text-center">
-                    <Link to={"/login"} className="bg-indigo-600 text-white py-2 px-4 rounded-lg">Continue to login</Link>
+                    <Link to={"/login"} className="bg-indigo-600 text-white py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-indigo-500">Continue to login</Link>
                 </div>
 			</div>
 		</div>

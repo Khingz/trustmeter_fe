@@ -3,6 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { useAuth } from "../../context/authContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { isValidEmail } from "../../utils";
+import ErrorAlert from "../../components/common/ErrorAlert";
+import { AnimatePresence } from "framer-motion";
+
 
 const ForgotPassword = () => {
 	const navigate = useNavigate();
@@ -17,6 +21,10 @@ const ForgotPassword = () => {
 			e.preventDefault();
 			if (!email) {
 				setError("Email is required");
+				return;
+			}
+			if (!isValidEmail(email)) {
+				setError("Invalid email format");
 				return;
 			}
 			await forgotPassword(email);
@@ -35,9 +43,11 @@ const ForgotPassword = () => {
 					Forgot Password
 				</h3>
 				<p className="text-lg text-center text-gray-700 mt-2">
-					Enter your email to reset your password
+					Enter your registered email to reset your password
 				</p>
-				{error && <p className="text-center text-red-500 mt-2">{error}</p>}
+				<AnimatePresence>
+					{error && <ErrorAlert message={error} />}
+				</AnimatePresence>
 				<div className="my-6">
 					<form onSubmit={handleForgotPassword}>
 						<div className="my-2">
@@ -48,16 +58,19 @@ const ForgotPassword = () => {
 								Email
 							</label>
 							<input
-								type="email"
+								type="text"
 								id="email"
 								placeholder="Enter your email"
 								className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-								onChange={(e) => setEmail(e.target.value)}
+								onChange={(e) => {
+									setEmail(e.target.value)
+									setError("")
+								}}
 							/>
 						</div>
 						<button
 							type="submit"
-							className="bg-indigo-600 p-2 w-full rounded text-white text-lg mt-3"
+							className="bg-indigo-600 p-2 w-full rounded text-white text-lg mt-3 transition-colors duration-300 hover:bg-indigo-500"
 							disabled={loading}
 						>
 							{loading ? <LoadingSpinner /> : "Reset Password"}
