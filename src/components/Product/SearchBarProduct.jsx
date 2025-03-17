@@ -1,10 +1,13 @@
-import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import SuggestAddProduct from "./SuggestAddProduct";
 
-const SearchBarProduct = ({ handleSubmit, placeholder, setValue }) => {
-	const [searchTerm, setSearchTerm] = useState("");
-
+const SearchBarProduct = ({
+	handleSubmit,
+	placeholder,
+	setValue,
+	routeToReview,
+	value,
+}) => {
 	const products = [
 		{ id: 1, name: "Apple iPhone 13", category: "Smartphones" },
 		{ id: 2, name: "Samsung Galaxy S21", category: "Smartphones" },
@@ -14,7 +17,7 @@ const SearchBarProduct = ({ handleSubmit, placeholder, setValue }) => {
 		{ id: 6, name: "Bose QuietComfort 45", category: "Headphones" },
 	];
 	const filteredProducts = products.filter((product) =>
-		product.name.toLowerCase().includes(searchTerm.toLowerCase())
+		product.name.toLowerCase().includes(value.toLowerCase())
 	);
 
 	return (
@@ -28,15 +31,15 @@ const SearchBarProduct = ({ handleSubmit, placeholder, setValue }) => {
 					placeholder={placeholder}
 					className="w-full px-4 py-4 text-sm focus:outline-none border-none"
 					onChange={(e) => {
-						setSearchTerm(e.target.value);
 						setValue(e.target.value);
 					}}
+					value={value}
 				/>
 				<button className="text-black text-2xl font-bold px-4 py-2">
 					<CiSearch />
 				</button>
 			</form>
-			{searchTerm && (
+			{value && (
 				<div className="absolute mt-2 w-4/5 md:w-1/2 bg-white border border-gray-300 rounded-lg shadow-lg z-50">
 					{filteredProducts.length > 0 ? (
 						filteredProducts.map((product) => (
@@ -44,8 +47,8 @@ const SearchBarProduct = ({ handleSubmit, placeholder, setValue }) => {
 								key={product.id}
 								className="p-2 hover:bg-gray-100 cursor-pointer"
 								onClick={() => {
-									setSearchTerm(product.name);
 									setValue(product.name);
+									routeToReview();
 								}}
 							>
 								{product.name}
@@ -53,7 +56,7 @@ const SearchBarProduct = ({ handleSubmit, placeholder, setValue }) => {
 						))
 					) : (
 						<div className="p-2 text-gray-800">
-							<SuggestAddProduct />
+							<SuggestAddProduct  name={value}/>
 						</div>
 					)}
 				</div>

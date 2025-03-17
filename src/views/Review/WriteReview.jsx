@@ -6,8 +6,7 @@ const WriteReview = () => {
 	const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
 	const [productName, setProductName] = useState("");
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
+	const handleOpenProductModal = () => {
 		if (productName === "") return;
 		setAddReviewModalOpen(true);
 	};
@@ -19,16 +18,20 @@ const WriteReview = () => {
 					What Product Would You Like To Review?
 				</h3>
 				<SearchBarProduct
-					placeholder="Search Product"
-					handleSubmit={handleSubmit}
+					placeholder="Search product you will like to review"
 					setValue={setProductName}
+					routeToReview={handleOpenProductModal}
+					value={productName}
 				/>
 			</div>
 			{addReviewModalOpen && (
 				<div className="w-full fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 py-10">
-					<div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-3/4 relative">
+					<div className="bg-white p-6 rounded-lg shadow-lg md:w-3/4 relative">
 						<button
-							onClick={() => setAddReviewModalOpen(false)}
+							onClick={() => {
+								setProductName("");
+								setAddReviewModalOpen(false);
+							}}
 							className="absolute top-5 right-8 text-gray-500 hover:text-gray-700 text-3xl"
 						>
 							&times;
