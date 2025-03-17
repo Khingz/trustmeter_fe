@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../../context/authContext";
 
 const CurrentUserProfile = () => {
 	const navigate = useNavigate();
@@ -19,7 +19,9 @@ const CurrentUserProfile = () => {
 						currentUser?.name.split(" ")[0].slice(1)}{" "}
 				{"👋, "} Welcome
 			</h1>
-			<button className="p-2 bg-purple-600 text-white" onClick={handleLogout}>Logout</button>
+			<button className="p-2 bg-purple-600 text-white" onClick={handleLogout}>
+				Logout
+			</button>
 		</div>
 	);
 };
