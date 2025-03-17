@@ -25,8 +25,8 @@ const WriteReview = () => {
 				/>
 			</div>
 			{addReviewModalOpen && (
-				<div className="w-full fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 py-10">
-					<div className="bg-white p-6 rounded-lg shadow-lg md:w-3/4 relative">
+				<div className="w-full fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 py-10 px-1.5">
+					<div className="bg-white p-6 rounded-lg shadow-lg w-full md:w-3/4 relative">
 						<button
 							onClick={() => {
 								setProductName("");
