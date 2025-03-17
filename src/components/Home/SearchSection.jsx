@@ -8,7 +8,7 @@ const SearchSection = () => {
 				Search by company name or category to discover the right match for your needs
 			</p>
 			<div className="mt-4 w-full md:w-1/2">
-				<SearchBar />
+				<SearchBar placeholder="Search Product, Category" />
 			</div>
 		</div>
 	);

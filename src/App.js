@@ -14,7 +14,8 @@ import ResetPassword from "./views/Auth/ResetPassword";
 import NotFoundPage from "./views/404";
 import ComingSoonPage from "./views/ComingSoon";
 import WriteReview from "./views/Review/WriteReview";
-import AddReview from "./views/Review/AddReview";
+import AddReview from "./views/Review/AddReviewModal";
+import AddProduct from "./views/Product/AddProduct";
 
 function App() {
 	return (
@@ -49,6 +50,7 @@ function App() {
 						<Route index element={<Home />} />
 						<Route path="/review" element={<WriteReview />} />
 						<Route path="/add-review" element={<AddReview />} />
+						<Route path="/add-product" element={<AddProduct />} />
 						<Route path="/categories" element={<ComingSoonPage />} />
 					</Route>
 					<Route path="*" element={<NotFoundPage />} />
