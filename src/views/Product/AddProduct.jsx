@@ -1,14 +1,12 @@
 import { AnimatePresence } from "motion/react";
 import React, { useState } from "react";
 import ErrorAlert from "../../components/common/ErrorAlert";
-import { Link, useNavigate } from "react-router-dom";
 import { useListings } from "../../context/listingContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import ProductOverviewCard from "../../components/Product/ProductOverviewCard";
 import SuccessAlert from "../../components/common/SuccessAlert";
 
 const AddProduct = () => {
-	const navigate = useNavigate();
 	const [productUrl, setProductUrl] = useState("");
 	const [product, setProduct] = useState(null);
 	const [error, setError] = useState("");
@@ -57,7 +55,6 @@ const AddProduct = () => {
 				<form
 					className="w-full mt-1"
 					onSubmit={handleSubmit}
-					aria-invalid={loading}
 				>
 					<input
 						type="text"

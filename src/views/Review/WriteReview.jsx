@@ -1,14 +1,29 @@
 import React, { useState } from "react";
 import SearchBarProduct from "../../components/Product/SearchBarProduct";
 import ReviewModalContainer from "../../components/Review/ReviewModalContainer";
+import { useListings } from "../../context/listingContext";
 
 const WriteReview = () => {
 	const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
 	const [productName, setProductName] = useState("");
+	const { getListings, listings } = useListings();
+	const [loading, setLoading] = useState(false);
 
 	const handleOpenProductModal = () => {
 		if (productName === "") return;
 		setAddReviewModalOpen(true);
+	};
+
+	const handleChange = async (e) => {
+		setLoading(true);
+		try {
+			setProductName(e.target.value);
+			await getListings(1, "name", e.target.value);
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -19,9 +34,11 @@ const WriteReview = () => {
 				</h3>
 				<SearchBarProduct
 					placeholder="Search product you will like to review"
-					setValue={setProductName}
+					setValue={handleChange}
 					routeToReview={handleOpenProductModal}
 					value={productName}
+					products={listings && listings.data}
+					loading={loading}
 				/>
 			</div>
 			{addReviewModalOpen && (

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import DefaultImage from "../../assets/images/defaultImage.png";
 import ReviewModalContainer from "../Review/ReviewModalContainer";
 
+
 const ProductOverviewCard = ({ image, name, productId }) => {
 	const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
 	image = image || DefaultImage;

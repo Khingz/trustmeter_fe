@@ -10,12 +10,16 @@ export const ListingsProvider = ({ children }) => {
 	const addListing = async (credentials) => {
 		try {
 			const data = await ListingService.addListing(credentials);
+			console.log(data);
 			if (data.error) {
-				throw new AppError(
-					data.message.errorMsg,
-					{ data: data.message.errorData },
-					409
-				);
+				if (data.message.errorData) {
+					throw new AppError(
+						data.message.errorMsg,
+						{ data: data.message.errorData },
+						409
+					);
+				}
+				throw new AppError(data.message, {}, 409);
 			}
 			return data;
 		} catch (error) {
@@ -23,13 +27,17 @@ export const ListingsProvider = ({ children }) => {
 		}
 	};
 
-	const getListings = async (page = 1, limit = 10) => {
+	const getListings = async (page = 1, searchBy = null, searchTerm = null) => {
 		try {
-			const data = await ListingService.getListings(page, limit);
+			const data = await ListingService.getListings({
+				page,
+				searchBy,
+				searchTerm,
+			});
 			if (data.error) {
 				throw new Error(data.message);
 			}
-			setListings(data);
+			setListings(data?.data);
 		} catch (error) {
 			throw error;
 		}

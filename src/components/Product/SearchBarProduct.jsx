@@ -1,5 +1,8 @@
 import { CiSearch } from "react-icons/ci";
 import SuggestAddProduct from "./SuggestAddProduct";
+import { useEffect } from "react";
+import DefaultImage from "../../assets/images/defaultImage.png";
+import LoadingSpinner from "../LoadingSpinner";
 
 const SearchBarProduct = ({
 	handleSubmit,
@@ -7,18 +10,16 @@ const SearchBarProduct = ({
 	setValue,
 	routeToReview,
 	value,
+	products,
+	loading,
 }) => {
-	const products = [
-		{ id: 1, name: "Apple iPhone 13", category: "Smartphones" },
-		{ id: 2, name: "Samsung Galaxy S21", category: "Smartphones" },
-		{ id: 3, name: "MacBook Pro 14", category: "Laptops" },
-		{ id: 4, name: "Dell XPS 13", category: "Laptops" },
-		{ id: 5, name: "Sony WH-1000XM4", category: "Headphones" },
-		{ id: 6, name: "Bose QuietComfort 45", category: "Headphones" },
-	];
-	const filteredProducts = products.filter((product) =>
-		product.name.toLowerCase().includes(value.toLowerCase())
-	);
+	const filteredProducts =
+		products &&
+		products?.filter((product) =>
+			product.name.toLowerCase().includes(value.toLowerCase())
+		);
+
+	useEffect(() => {}, [filteredProducts]);
 
 	return (
 		<>
@@ -30,9 +31,7 @@ const SearchBarProduct = ({
 					type="text"
 					placeholder={placeholder}
 					className="w-full px-4 py-4 text-sm focus:outline-none border-none"
-					onChange={(e) => {
-						setValue(e.target.value);
-					}}
+					onChange={setValue}
 					value={value}
 				/>
 				<button className="text-black text-2xl font-bold px-4 py-2">
@@ -41,22 +40,30 @@ const SearchBarProduct = ({
 			</form>
 			{value && (
 				<div className="absolute mt-2 w-4/5 md:w-1/2 bg-white border border-gray-300 rounded-lg shadow-lg z-50">
-					{filteredProducts.length > 0 ? (
+					{filteredProducts && filteredProducts.length > 0 ? (
 						filteredProducts.map((product) => (
 							<div
 								key={product.id}
-								className="p-2 hover:bg-gray-100 cursor-pointer"
+								className="p-2 hover:bg-gray-100 cursor-pointer border-b border-gray-200"
 								onClick={() => {
-									setValue(product.name);
 									routeToReview();
 								}}
 							>
-								{product.name}
+								<div className="flex flex-row items-center justify-start gap-4">
+									<img
+										src={product.image || DefaultImage}
+										alt={product.name}
+										className="w-10 h-10 object-cover rounded-full"
+									/>
+									<p className="text-lg font-semibold mb-2">
+										{product.name.toUpperCase()}
+									</p>
+								</div>
 							</div>
 						))
 					) : (
 						<div className="p-2 text-gray-800">
-							<SuggestAddProduct  name={value}/>
+							{!loading ? <SuggestAddProduct name={value} /> : <LoadingSpinner />}
 						</div>
 					)}
 				</div>
