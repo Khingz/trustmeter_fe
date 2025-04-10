@@ -53,6 +53,7 @@ function App() {
 						<Route path="/add-review" element={<AddReview />} />
 						<Route path="/add-product" element={<AddProduct />} />
 						<Route path="/product/:id" element={<SingleProduct />} />
+						<Route path="/product/test-single" element={<SingleProduct />} />
 						<Route path="/categories" element={<ComingSoonPage />} />
 					</Route>
 					<Route path="*" element={<NotFoundPage />} />

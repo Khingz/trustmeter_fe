@@ -55,7 +55,7 @@ const SearchBarProduct = ({
 										alt={product.name}
 										className="w-10 h-10 object-cover rounded-full"
 									/>
-									<p className="text-lg font-semibold mb-2">
+									<p className="text-sm font-semibold mb-2">
 										{product.name.toUpperCase()}
 									</p>
 								</div>

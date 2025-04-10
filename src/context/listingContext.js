@@ -10,7 +10,6 @@ export const ListingsProvider = ({ children }) => {
 	const addListing = async (credentials) => {
 		try {
 			const data = await ListingService.addListing(credentials);
-			console.log(data);
 			if (data.error) {
 				if (data.message.errorData) {
 					throw new AppError(
