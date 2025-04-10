@@ -16,6 +16,7 @@ import ComingSoonPage from "./views/ComingSoon";
 import WriteReview from "./views/Review/WriteReview";
 import AddReview from "./views/Review/AddReviewModal";
 import AddProduct from "./views/Product/AddProduct";
+import SingleProduct from "./views/Product/SingleProduct";
 
 function App() {
 	return (
@@ -51,6 +52,7 @@ function App() {
 						<Route path="/review" element={<WriteReview />} />
 						<Route path="/add-review" element={<AddReview />} />
 						<Route path="/add-product" element={<AddProduct />} />
+						<Route path="/product/:id" element={<SingleProduct />} />
 						<Route path="/categories" element={<ComingSoonPage />} />
 					</Route>
 					<Route path="*" element={<NotFoundPage />} />

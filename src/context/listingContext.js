@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import ListingService from "../service/listingService";
+import AppError from "../utils/appError";
 
 export const ListingsContext = createContext();
 
@@ -10,8 +11,25 @@ export const ListingsProvider = ({ children }) => {
 		try {
 			const data = await ListingService.addListing(credentials);
 			if (data.error) {
+				throw new AppError(
+					data.message.errorMsg,
+					{ data: data.message.errorData },
+					409
+				);
+			}
+			return data;
+		} catch (error) {
+			throw error;
+		}
+	};
+
+	const getListings = async (page = 1, limit = 10) => {
+		try {
+			const data = await ListingService.getListings(page, limit);
+			if (data.error) {
 				throw new Error(data.message);
 			}
+			setListings(data);
 		} catch (error) {
 			throw error;
 		}
@@ -24,6 +42,7 @@ export const ListingsProvider = ({ children }) => {
 			value={{
 				listings,
 				addListing,
+				getListings,
 			}}
 		>
 			{children}

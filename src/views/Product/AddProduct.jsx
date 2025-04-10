@@ -1,30 +1,35 @@
 import { AnimatePresence } from "motion/react";
 import React, { useState } from "react";
 import ErrorAlert from "../../components/common/ErrorAlert";
-import ListingService from "../../service/listingService";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useListings } from "../../context/listingContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import ProductOverviewCard from "../../components/Product/ProductOverviewCard";
+import SuccessAlert from "../../components/common/SuccessAlert";
 
 const AddProduct = () => {
 	const navigate = useNavigate();
 	const [productUrl, setProductUrl] = useState("");
+	const [product, setProduct] = useState(null);
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 	const { addListing } = useListings();
 
 	const handleSubmit = async (e) => {
+		e.preventDefault();
 		setLoading(true);
+		setProduct(null);
 		setError("");
 		try {
-			e.preventDefault();
 			if (!productUrl) {
 				setError("Product URL is required");
 				return;
 			}
 			const credentials = { url: productUrl };
-			await addListing(credentials);
+			const product = await addListing(credentials);
+			setProduct(product?.data);
 		} catch (error) {
+			setProduct(error.data.data);
 			setError(error.message);
 		} finally {
 			setLoading(false);
@@ -32,6 +37,7 @@ const AddProduct = () => {
 	};
 
 	const handleChange = (e) => {
+		setProduct(null);
 		setError("");
 		setProductUrl(e.target.value);
 	};
@@ -61,7 +67,9 @@ const AddProduct = () => {
 						readOnly={loading}
 					/>
 					<button
-						className={`text-white py-2 px-3 rounded-md mt-2 w-full ${loading ? "bg-slate-500 cursor-not-allowed" : "bg-indigo-600"}`}
+						className={`text-white py-2 px-3 rounded-md mt-2 w-full ${
+							loading ? "bg-slate-500 cursor-not-allowed" : "bg-indigo-600"
+						}`}
 						disabled={loading}
 					>
 						Add Product
@@ -74,6 +82,26 @@ const AddProduct = () => {
 						<p className="text-center mt-1">
 							Adding product, this may take a while...
 						</p>
+					</div>
+				)}
+				{product && (
+					<div className="mt-8">
+						<AnimatePresence>
+							{!error && (
+								<SuccessAlert message="Product created successfully" />
+							)}
+						</AnimatePresence>
+
+						<AnimatePresence>
+							{error && (
+								<p>This is the product you are trying to add, you can go ahead and add your review...</p>
+							)}
+						</AnimatePresence>
+						<ProductOverviewCard
+							image={product?.image}
+							name={product?.name}
+							productId={product?.id}
+						/>
 					</div>
 				)}
 			</div>
