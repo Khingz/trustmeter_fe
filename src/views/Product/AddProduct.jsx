@@ -13,6 +13,8 @@ const AddProduct = () => {
 	const [loading, setLoading] = useState(false);
 	const { addListing } = useListings();
 
+	console.log(product);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
@@ -95,9 +97,7 @@ const AddProduct = () => {
 							)}
 						</AnimatePresence>
 						<ProductOverviewCard
-							image={product?.image}
-							name={product?.name}
-							productId={product?.id}
+							product={product}
 						/>
 					</div>
 				)}

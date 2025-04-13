@@ -13,3 +13,12 @@ export function isValidEmail(email) {
 	// Simple email validation check
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
+export const rating_label = [
+	"Very Poor",
+	"Poor",
+	"Fair",
+	"Good",
+	"Very Good",
+	"Excellent",
+];

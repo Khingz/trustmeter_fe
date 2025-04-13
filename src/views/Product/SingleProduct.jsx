@@ -1,18 +1,106 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import DefaultImage from "../../assets/images/defaultImage.png";
+import RatingBar from "../../components/Review/RatingBar";
+import { useEffect, useState } from "react";
+import ListingService from "../../service/listingService";
+import { rating_label } from "../../utils/index";
 
 const SingleProduct = () => {
-    const { id } = useParams();
-    
+	const { id } = useParams();
+	const [reviews, setReviews] = useState(null);
+	const [listing, setListing] = useState(null);
+	const [stats, setStats] = useState(null);
+	const [loadingReviews, setLoadingReviews] = useState(true);
+	const [loadingListing, setLoadingListing] = useState(true);
+	const [loadingStats, setLoadingStats] = useState(true);
+
+	useEffect(() => {
+		const fetchListing = async () => {
+			try {
+				const data = await ListingService.getListing(id);
+				setListing(data.data);
+			} catch (error) {
+				console.log(error);
+			} finally {
+				setLoadingListing(false);
+			}
+		};
+		fetchListing();
+	}, [id]);
+
+	useEffect(() => {
+		const fetchReviewStats = async () => {
+			try {
+				const data = await ListingService.getReviewStats(id);
+				setStats(data.data);
+			} catch (error) {
+				console.log(error);
+			} finally {
+				setLoadingListing(false);
+			}
+		};
+		fetchReviewStats();
+	}, []);
+
+	useEffect(() => {}, []);
+
 	return (
-		<div className="min-h-screen bg-indigo-50 mt-20 pt-10 relative">
-			<div className="w-5/6 md:w-1/2 mx-auto mt-10">
-				<h3 className="my-4 font-bold text-xl md:text-3xl text-center">
-					Product Details
-				</h3>
-				<p className="text-center text-xl mb-3">
-					Product ID: {id}
-				</p>
-			</div>
+		<div className="min-h-screen mt-14 pt-10 relative">
+			{listing && (
+				<div className="bg-indigo-50 md:py-16 md:px-32 py-6 px-6 border-y border-gray-300">
+					<img
+						src={listing.image || DefaultImage}
+						alt={"listing_image"}
+						className="w-20 h-20 md:w-32 md:h-32 object-cover rounded-full bg-indigo-600 border border-gray-300"
+					/>
+
+					<h3 className="text-[2rem] md:text-[4rem] font-extralight mt-1 capitalize">
+						{listing.name}
+					</h3>
+					<button className="bg-indigo-600 text-white text-sm px-3 py-2 rounded font-semibold mb-2 pointer">
+						{" "}
+						Leave a Review
+						<span className="ml-2 animate-bounce inline-block text-lg">👈🏻</span>
+					</button>
+				</div>
+			)}
+			{stats && (
+				<div className="md:py-16 md:px-32 py-6 px-6">
+					<h2 className="text-2xl md:text-3xl font-semibold">
+						Ratings Summary
+					</h2>
+					<div className="flex flex-col md:flex-row gap-16 mt-10">
+						<div className="flex flex-col items-center justify-center gap-3">
+							<span className="bg-indigo-600 text-white text-sm px-3 py-2 rounded font-semibold mb-2">
+								{stats.total_reviews > 0
+									? rating_label[Math.trunc(stats.average_rating)]
+									: "No Review"}
+							</span>
+							<span className="text-5xl font-bold">{stats.average_rating}</span>
+							<span className="text-sm text-gray-500 -mt-1">out of 5</span>
+						</div>
+
+						<div className="border-t md:border border-gray-200"></div>
+
+						<div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-4 mb-4 md:mb-0">
+							{Object.entries(stats.rating_counts).map(
+								([key, value], index) => (
+									<div key={key}>
+										<RatingBar
+											item={{ key, value }}
+											index={index}
+											total_review={stats.total_reviews}
+											average={stats.average_rating}
+										/>
+									</div>
+								)
+							)}
+						</div>
+					</div>
+				</div>
+			)}
+			<div className="w-[87%] border-t border-gray-200 mx-auto"></div>
+			<div className="mt-22 md:py-16 md:px-32 py-6 px-6"></div>
 		</div>
 	);
 };

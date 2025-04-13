@@ -1,38 +1,18 @@
 import apiClient from "../utils/apiClient";
 
-const ListingService = {
-	getListings: async ({ page = 1, searchBy, searchTerm } = {}) => {
+const ReviewService = {
+	getListings: async ({ page = 1, searchBy, searchTerm, filters } = {}) => {
 		try {
 			const params = new URLSearchParams();
 
 			params.append("page", page);
 			if (searchBy) params.append("search_by", searchBy);
 			if (searchTerm) params.append("search_term", searchTerm);
+			if (filters) params.append("filters", filters);
 
 			const response = await apiClient.get(
-				`/api/v1/listings?${params.toString()}`
+				`/api/v1/reviews?${params.toString()}`
 			);
-			return response.data;
-		} catch (error) {
-			const errorMsg = error?.response?.data?.message;
-			return { error: true, message: errorMsg || "An unknown error occurred" };
-		}
-	},
-
-	getListing: async (listing_id) => {
-		try {
-			const response = await apiClient.get(`/api/v1/listings/${listing_id}`);
-			return response.data;
-		} catch (error) {
-			const errorMsg = error?.response?.data?.message;
-			return { error: true, message: errorMsg || "An unknown error occurred" };
-		}
-	},
-
-	getReviewStats: async (listing_id) => {
-		try {
-			console.log(listing_id);
-			const response = await apiClient.get(`/api/v1/listings/${listing_id}/reviews/stats`);
 			return response.data;
 		} catch (error) {
 			const errorMsg = error?.response?.data?.message;
