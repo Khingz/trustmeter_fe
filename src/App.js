@@ -14,13 +14,19 @@ import ResetPassword from "./views/Auth/ResetPassword";
 import NotFoundPage from "./views/404";
 import ComingSoonPage from "./views/ComingSoon";
 import WriteReview from "./views/Review/WriteReview";
-import AddReview from "./views/Review/AddReviewModal";
 import AddProduct from "./views/Product/AddProduct";
 import SingleProduct from "./views/Product/SingleProduct";
+import { ToastContainer } from "react-toastify";
 
 function App() {
 	return (
 		<div className="min-h-[100vh] bg-white">
+			<ToastContainer
+				position="top-center"
+				hideProgressBar={true}
+				draggable
+				theme="dark"
+			/>
 			<Router>
 				<Routes>
 					{/* Routes that does not require login to be accessed but should not be accessed when logedin */}
@@ -50,7 +56,6 @@ function App() {
 					<Route path="/" element={<MainLayout />}>
 						<Route index element={<Home />} />
 						<Route path="/review" element={<WriteReview />} />
-						<Route path="/add-review" element={<AddReview />} />
 						<Route path="/add-product" element={<AddProduct />} />
 						<Route path="/product/:id" element={<SingleProduct />} />
 						<Route path="/product/test-single" element={<SingleProduct />} />

@@ -4,6 +4,8 @@ import RatingBar from "../../components/Review/RatingBar";
 import { useEffect, useState } from "react";
 import ListingService from "../../service/listingService";
 import { rating_label } from "../../utils/index";
+import ReviewModalContainer from "../../components/Review/ReviewModalContainer";
+import ReviewCard from "../../components/Review/ReviewCard";
 
 const SingleProduct = () => {
 	const { id } = useParams();
@@ -13,6 +15,13 @@ const SingleProduct = () => {
 	const [loadingReviews, setLoadingReviews] = useState(true);
 	const [loadingListing, setLoadingListing] = useState(true);
 	const [loadingStats, setLoadingStats] = useState(true);
+	const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
+
+	const tempCount = Array.from({ length: 8 }, (_, index) => index + 1);
+
+	const handleOpenProductModal = () => {
+		setAddReviewModalOpen(true);
+	};
 
 	useEffect(() => {
 		const fetchListing = async () => {
@@ -26,7 +35,7 @@ const SingleProduct = () => {
 			}
 		};
 		fetchListing();
-	}, [id]);
+	}, [id, addReviewModalOpen]);
 
 	useEffect(() => {
 		const fetchReviewStats = async () => {
@@ -40,27 +49,46 @@ const SingleProduct = () => {
 			}
 		};
 		fetchReviewStats();
-	}, []);
+	}, [id, addReviewModalOpen]);
 
 	useEffect(() => {}, []);
 
 	return (
 		<div className="min-h-screen mt-14 pt-10 relative">
 			{listing && (
-				<div className="bg-indigo-50 md:py-16 md:px-32 py-6 px-6 border-y border-gray-300">
-					<img
-						src={listing.image || DefaultImage}
-						alt={"listing_image"}
-						className="w-20 h-20 md:w-32 md:h-32 object-cover rounded-full bg-indigo-600 border border-gray-300"
-					/>
+				<div className="bg-indigo-50 md:py-16 md:px-32 py-6 px-6 border-y border-gray-300 md:flex md:items-end md:justify-between">
+					<div>
+						<img
+							src={listing.image || DefaultImage}
+							alt={"listing_image"}
+							className="w-20 h-20 md:w-32 md:h-32 object-cover rounded-full bg-indigo-600 border border-gray-300"
+						/>
+						<div className="flex justify-start items-center md:gap-10 gap-4 md:mb-0 mb-4">
+							<h3 className="text-[2rem] md:text-[4rem] font-extralight mt-1 capitalize">
+								{listing.name}
+							</h3>
+							{stats && (
+								<div className="bg-white border border-gray-250 p-2 md:py-3 md:px-2 rounded-md">
+									<span className="text-xl bg-gray-50 p-1 rounded-full border border-gray-300 mr-2">
+										⭐
+									</span>
+									<span className="text-sm text-gray-900 font-bold ">
+										{stats.total_reviews} Reviews
+									</span>
+								</div>
+							)}
+						</div>
+					</div>
 
-					<h3 className="text-[2rem] md:text-[4rem] font-extralight mt-1 capitalize">
-						{listing.name}
-					</h3>
-					<button className="bg-indigo-600 text-white text-sm px-3 py-2 rounded font-semibold mb-2 pointer">
+					<button
+						className="bg-indigo-600 text-white text-sm px-3 py-2 rounded font-semibold mb-2 pointer"
+						onClick={handleOpenProductModal}
+					>
 						{" "}
 						Leave a Review
-						<span className="ml-2 animate-bounce inline-block text-lg">👈🏻</span>
+						<span className="ml-2 animate-bounce inline-block group-hover:animate-none text-lg">
+							👈🏻
+						</span>
 					</button>
 				</div>
 			)}
@@ -70,13 +98,15 @@ const SingleProduct = () => {
 						Ratings Summary
 					</h2>
 					<div className="flex flex-col md:flex-row gap-16 mt-10">
-						<div className="flex flex-col items-center justify-center gap-3">
+						<div className="flex flex-col items-center justify-start gap-3">
 							<span className="bg-indigo-600 text-white text-sm px-3 py-2 rounded font-semibold mb-2">
 								{stats.total_reviews > 0
 									? rating_label[Math.trunc(stats.average_rating)]
 									: "No Review"}
 							</span>
-							<span className="text-5xl font-bold">{stats.average_rating}</span>
+							<span className="text-5xl font-bold">
+								{stats.average_rating.toFixed(1)}
+							</span>
 							<span className="text-sm text-gray-500 -mt-1">out of 5</span>
 						</div>
 
@@ -100,7 +130,20 @@ const SingleProduct = () => {
 				</div>
 			)}
 			<div className="w-[87%] border-t border-gray-200 mx-auto"></div>
-			<div className="mt-22 md:py-16 md:px-32 py-6 px-6"></div>
+
+			<div className="mt-22 md:py-16 md:px-32 py-6 px-6">
+				<div className="flex flex-wrap justify-center items-center gap-4 px-4">
+					{tempCount.map((review, index) => (
+						<ReviewCard key={index} />
+					))}
+				</div>
+			</div>
+			{addReviewModalOpen && (
+				<ReviewModalContainer
+					product={listing}
+					setAddReviewModalOpen={setAddReviewModalOpen}
+				/>
+			)}
 		</div>
 	);
 };

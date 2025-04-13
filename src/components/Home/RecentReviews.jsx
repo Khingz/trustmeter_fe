@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ReviewCard from "../ReviewCard";
+import ReviewCard from "../Review/ReviewCard";
 
 const RecentReviews = () => {
 	const reviews = Array.from({ length: 8 }, (_, index) => index + 1);

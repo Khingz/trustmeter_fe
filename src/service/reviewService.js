@@ -1,7 +1,7 @@
 import apiClient from "../utils/apiClient";
 
 const ReviewService = {
-	getListings: async ({ page = 1, searchBy, searchTerm, filters } = {}) => {
+	getReviews: async ({ page = 1, searchBy, searchTerm, filters } = {}) => {
 		try {
 			const params = new URLSearchParams();
 
@@ -20,23 +20,15 @@ const ReviewService = {
 		}
 	},
 
-	addListing: async (credentials) => {
+	addReview: async (credentials) => {
 		try {
-			const response = await apiClient.post("/api/v1/listings", credentials);
+			const response = await apiClient.post("/api/v1/reviews", credentials);
 			return response.data;
 		} catch (error) {
-			if (error.status === 409) {
-				const errorMsg = error?.response?.data?.message?.message;
-				const errorData = error?.response?.data?.message?.listing;
-				return {
-					error: true,
-					message: { errorMsg, errorData } || "An unknown error occurred",
-				};
-			}
 			const errorMsg = error?.response?.data?.message;
 			return { error: true, message: errorMsg || "An unknown error occurred" };
 		}
 	},
 };
 
-export default ListingService;
+export default ReviewService;

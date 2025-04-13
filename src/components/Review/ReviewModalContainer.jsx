@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import AddReview from "../../views/Review/AddReviewModal";
+import React from "react";
+import AddReview from "./AddReviewModal";
 
-const ReviewModalContainer = ({
-	product,
-	setAddReviewModalOpen,
-}) => {
+const ReviewModalContainer = ({ product, setAddReviewModalOpen }) => {
+
+
 	return (
 		<div className="w-full fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 py-10 px-1.5">
 			<div className="bg-white p-6 rounded-lg shadow-lg w-full md:w-3/4 relative">
@@ -16,7 +15,7 @@ const ReviewModalContainer = ({
 				>
 					&times;
 				</button>
-				<AddReview product={product} />
+				<AddReview product={product} setAddReviewModalOpen={setAddReviewModalOpen} />
 			</div>
 		</div>
 	);

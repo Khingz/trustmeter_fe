@@ -15,7 +15,6 @@ export function isValidEmail(email) {
 }
 
 export const rating_label = [
-	"Very Poor",
 	"Poor",
 	"Fair",
 	"Good",

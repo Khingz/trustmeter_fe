@@ -31,7 +31,6 @@ const ListingService = {
 
 	getReviewStats: async (listing_id) => {
 		try {
-			console.log(listing_id);
 			const response = await apiClient.get(`/api/v1/listings/${listing_id}/reviews/stats`);
 			return response.data;
 		} catch (error) {

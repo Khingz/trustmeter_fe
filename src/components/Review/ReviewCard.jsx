@@ -1,10 +1,9 @@
 import React from "react";
-import StarRating from "./StarRating";
+import StarRating from "../StarRating";
 
 const ReviewCard = () => {
 	return (
-		<div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden p-4">
-			{/* Reviewer Image */}
+		<div className="max-w-sm bg-white border border-gray-200 rounded-sm overflow-hidden p-4">
 			<div className="flex items-center space-x-4 mb-4">
 				<img
 					src="https://via.placeholder.com/60"
@@ -13,26 +12,27 @@ const ReviewCard = () => {
 				/>
 				<div>
 					<h3 className="text-lg font-semibold">John Doe</h3>
-					<p className="text-sm text-gray-500">ABC Corporation</p>
+					<p className="text-sm text-gray-500">Aug 12, 2024</p>
 				</div>
 			</div>
 
-			{/* Review Text */}
 			<p className="text-gray-700 mb-4">
 				"This product has exceeded my expectations. Great quality and fantastic
 				support from the team!"
 			</p>
 
-			{/* Star Rating */}
 			<StarRating rating={2} />
 
-			{/* Company Logo */}
 			<div className="flex items-center justify-between">
-				<img
-					src="https://via.placeholder.com/80x40"
-					alt="Company Logo"
-					className="h-8 object-contain"
-				/>
+				<div className="flex justify-start items-center gap-2">
+					<img
+						src="https://via.placeholder.com/60"
+						alt="Company Logo"
+						className="h-8 w-8 rounded-full object-contain"
+					/>
+					<p>Company Name</p>
+				</div>
+
 				<button className="text-blue-500 hover:underline text-sm">
 					Read More
 				</button>
