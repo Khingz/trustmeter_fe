@@ -6,6 +6,8 @@ import ListingService from "../../service/listingService";
 import { rating_label } from "../../utils/index";
 import ReviewModalContainer from "../../components/Review/ReviewModalContainer";
 import ReviewCard from "../../components/Review/ReviewCard";
+import ReviewService from "../../service/reviewService";
+import SkeletonReviewCard from "../../components/Skeleton/ReviewCardSkeleton";
 
 const SingleProduct = () => {
 	const { id } = useParams();
@@ -16,8 +18,6 @@ const SingleProduct = () => {
 	const [loadingListing, setLoadingListing] = useState(true);
 	const [loadingStats, setLoadingStats] = useState(true);
 	const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
-
-	const tempCount = Array.from({ length: 8 }, (_, index) => index + 1);
 
 	const handleOpenProductModal = () => {
 		setAddReviewModalOpen(true);
@@ -51,7 +51,23 @@ const SingleProduct = () => {
 		fetchReviewStats();
 	}, [id, addReviewModalOpen]);
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		const fetchReviews = async () => {
+			try {
+				const data = await ReviewService.getReviews({
+					filters: { listing_id: id },
+				});
+				console.log(data);
+				setReviews(data.data);
+			} catch (error) {
+				console.log(error);
+				console.log(error);
+			} finally {
+				setLoadingReviews(false);
+			}
+		};
+		fetchReviews();
+	}, [id, addReviewModalOpen]);
 
 	return (
 		<div className="min-h-screen mt-14 pt-10 relative">
@@ -68,12 +84,13 @@ const SingleProduct = () => {
 								{listing.name}
 							</h3>
 							{stats && (
-								<div className="bg-white border border-gray-250 p-2 md:py-3 md:px-2 rounded-md">
+								<div className="bg-white border border-gray-250 p-2 md:py-3 md:px-4 rounded-md">
 									<span className="text-xl bg-gray-50 p-1 rounded-full border border-gray-300 mr-2">
 										⭐
 									</span>
 									<span className="text-sm text-gray-900 font-bold ">
-										{stats.total_reviews} Reviews
+										{stats.total_reviews}{" "}
+										{stats.total_reviews > 1 ? "Reviews" : "Review"}
 									</span>
 								</div>
 							)}
@@ -131,13 +148,19 @@ const SingleProduct = () => {
 			)}
 			<div className="w-[87%] border-t border-gray-200 mx-auto"></div>
 
-			<div className="mt-22 md:py-16 md:px-32 py-6 px-6">
-				<div className="flex flex-wrap justify-center items-center gap-4 px-4">
-					{tempCount.map((review, index) => (
-						<ReviewCard key={index} />
-					))}
+			{reviews && (
+				<div className="mt-22 md:py-16 md:px-32 py-6 px-6">
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6 mb-10 px-4 md:px-10">
+						{!loadingReviews &&
+							reviews &&
+							reviews?.data.map((review, index) => (
+								<ReviewCard key={index} review={review} />
+							))}
+
+						{loadingReviews && <SkeletonReviewCard count={6} />}
+					</div>
 				</div>
-			</div>
+			)}
 			{addReviewModalOpen && (
 				<ReviewModalContainer
 					product={listing}

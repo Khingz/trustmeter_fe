@@ -25,7 +25,7 @@ function App() {
 				position="top-center"
 				hideProgressBar={true}
 				draggable
-				theme="dark"
+				theme="light"
 			/>
 			<Router>
 				<Routes>

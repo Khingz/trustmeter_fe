@@ -8,6 +8,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { AnimatePresence } from "framer-motion";
 import ErrorAlert from "../../components/common/ErrorAlert";
 import { isValidEmail } from "../../utils";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
 	const navigate = useNavigate();
@@ -52,6 +53,7 @@ const SignUp = () => {
 			};
 			await register(credentials);
 			navigate("/login");
+			toast.success("Registration successful");
 		} catch (error) {
 			setError(error.message);
 		} finally {

@@ -12,6 +12,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import ErrorAlert from "../../components/common/ErrorAlert";
 import { isValidEmail } from "../../utils";
 import { AnimatePresence } from "framer-motion";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
 	const navigate = useNavigate();
@@ -56,6 +57,7 @@ const SignIn = () => {
 			await login(credentials);
 			const redirectUrl = getFromSessionStorage("redirectUrl") || "/";
 			navigate(redirectUrl);
+			toast.success("Login successful");
 		} catch (error) {
 			setError(error.message);
 		} finally {

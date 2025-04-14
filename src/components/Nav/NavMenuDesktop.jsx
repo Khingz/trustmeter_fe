@@ -6,7 +6,7 @@ import { useAuth } from "../../context/authContext";
 const NavMenuDesktop = () => {
 	const { isLoggedIn, currentUser } = useAuth();
 	return (
-		<div className="flex items-center justify-center gap-10 font-extralight text-md">
+		<div className="flex items-center justify-center gap-6 font-extralight text-md">
 			{navLinks.map((link, index) => (
 				<NavLink
 					key={index}
@@ -14,7 +14,7 @@ const NavMenuDesktop = () => {
 					className={({ isActive }) =>
 						`${getNavLinkClass(
 							isActive
-						)} text-xl font-normal transition-transform duration-300 hover:scale-105`
+						)} text-lg font-normal transition-transform duration-300 hover:scale-105`
 					}
 				>
 					{link.name}
