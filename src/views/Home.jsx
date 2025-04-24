@@ -2,7 +2,7 @@ import React from "react";
 import HeroSection from "../components/Home/HeroSection";
 import SearchSection from "../components/Home/SearchSection";
 import RecentReviews from "../components/Home/RecentReviews";
-import CategorySection from "../components/Home/CategorySection";
+// import CategorySection from "../components/Home/ProductSection";
 import FadeInSection from "../components/common/FadeInSection";
 
 const Home = () => {
@@ -17,9 +17,9 @@ const Home = () => {
 				<RecentReviews />
 			</FadeInSection>
 
-			<FadeInSection>
+			{/* <FadeInSection>
 				<CategorySection />
-			</FadeInSection>
+			</FadeInSection> */}
 		</div>
 	);
 };

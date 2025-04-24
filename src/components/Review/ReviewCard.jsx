@@ -5,10 +5,10 @@ import DefaultImage from "../../assets/images/defaultImage.png";
 import { getFromLocalStorage } from "../../utils/localStorage";
 
 const ReviewCard = ({ review }) => {
-	const user_id = getFromLocalStorage("currentUser").id;
+	const user_id = getFromLocalStorage("currentUser")?.id;
 
 	return (
-		<div className="bg-white border border-gray-200 rounded-sm overflow-hidden p-4">
+		<div className="bg-white border border-gray-200 rounded-sm overflow-hidden p-4 flex flex-col justify-between">
 			<div className="flex items-center space-x-4 mb-4">
 				<img
 					src="https://via.placeholder.com/60"
