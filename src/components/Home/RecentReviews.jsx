@@ -45,24 +45,24 @@ const RecentReviews = () => {
 					</p>
 				</div>
 			)}
-
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-8 md:px-20">
-				{!loading &&
-					reviews &&
-					reviews?.data.map((review, index) => (
-						<ReviewCard key={index} review={review} />
-					))}
-
-				{loading && <SkeletonReviewCard count={6} />}
-			</div>
-			{!loading && reviews && (
-				<div className="my-10 text-center">
-					<Link
-						to={"/reviews"}
-						className="text-white bg-indigo-600 rounded-lg py-3 px-6 transition-colors duration-300 hover:bg-indigo-500"
-					>
-						See more reviews
-					</Link>
+			{!loading && reviews?.data && reviews.data.length > 0 && (
+				<div>
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-8 md:px-20">
+						{!loading &&
+							reviews &&
+							reviews?.data.map((review, index) => (
+								<ReviewCard key={index} review={review} />
+							))}
+						{loading && <SkeletonReviewCard count={6} />}
+					</div>
+					<div className="my-10 text-center">
+						<Link
+							to={"/reviews"}
+							className="text-white bg-indigo-600 rounded-lg py-3 px-6 transition-colors duration-300 hover:bg-indigo-500"
+						>
+							See more reviews
+						</Link>
+					</div>
 				</div>
 			)}
 		</div>
