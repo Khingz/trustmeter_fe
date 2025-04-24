@@ -64,11 +64,11 @@ const RecentReviews = () => {
 					</div>
 				</div>
 			)}
-			{
+			{loading && (
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-8 md:px-20">
-					loading && <SkeletonReviewCard count={6} />
+					<SkeletonReviewCard count={6} />
 				</div>
-			}
+			)}
 		</div>
 	);
 };
