@@ -53,7 +53,6 @@ const RecentReviews = () => {
 							reviews?.data.map((review, index) => (
 								<ReviewCard key={index} review={review} />
 							))}
-						{loading && <SkeletonReviewCard count={6} />}
 					</div>
 					<div className="my-10 text-center">
 						<Link
@@ -65,6 +64,7 @@ const RecentReviews = () => {
 					</div>
 				</div>
 			)}
+			{loading && <SkeletonReviewCard count={6} />}
 		</div>
 	);
 };
