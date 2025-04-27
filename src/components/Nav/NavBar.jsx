@@ -24,7 +24,7 @@ const NavBar = () => {
 				isScrolled ? "bg-[rgba(255,255,255,0.9)] shadow-lg" : "bg-white"
 			}`}
 		>
-			<div className="md:w-4/5 mx-auto flex justify-between items-center py-[1.5rem] px-[1.5rem] md:gap-1">
+			<div className="w-full lg:w-4/5 mx-auto flex justify-between items-center py-[1.5rem] px-[1.5rem] md:gap-1">
 				<div className="">
 					<Link to={"/"}>
 						<h2 className="text-indigo-600 font-bold text-3xl">TrustMeter</h2>

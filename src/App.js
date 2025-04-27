@@ -12,11 +12,11 @@ import ResetLinkSuccessful from "./views/Auth/ResetLinkSuccessful";
 import PasswordResetSuccess from "./views/Auth/PasswordResetSuccess";
 import ResetPassword from "./views/Auth/ResetPassword";
 import NotFoundPage from "./views/404";
-import ComingSoonPage from "./views/ComingSoon";
 import WriteReview from "./views/Review/WriteReview";
 import AddProduct from "./views/Product/AddProduct";
 import SingleProduct from "./views/Product/SingleProduct";
 import { ToastContainer } from "react-toastify";
+import ProductListing from "./views/Product/ProductListing";
 
 function App() {
 	return (
@@ -57,9 +57,9 @@ function App() {
 						<Route index element={<Home />} />
 						<Route path="/review" element={<WriteReview />} />
 						<Route path="/add-product" element={<AddProduct />} />
-						<Route path="/product/:id" element={<SingleProduct />} />
+						<Route path="/products/:id" element={<SingleProduct />} />
 						<Route path="/product/test-single" element={<SingleProduct />} />
-						<Route path="/categories" element={<ComingSoonPage />} />
+						<Route path="/products" element={<ProductListing />} />
 					</Route>
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>

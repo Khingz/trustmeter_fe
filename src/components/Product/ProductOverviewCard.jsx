@@ -32,7 +32,7 @@ const ProductOverviewCard = ({ product }) => {
 					Add Review
 				</button>
 				<Link
-					to={`/product/${product.id}`}
+					to={`/products/${product.id}`}
 					className="px-4 py-2 text-sm bg-gray-400 text-white rounded-md hover:bg-gray-500 transition"
 				>
 					View Product
