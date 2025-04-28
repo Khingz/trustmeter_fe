@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ReviewService from "../../service/reviewService";
 import SkeletonReviewCard from "../Skeleton/ReviewCardSkeleton";
 import EmptyImage from "../../assets/images/no-data.png";
+import HeaderTitle from "../common/HeaderTitle";
 
 const RecentReviews = () => {
 	const [reviews, setReviews] = useState(null);
@@ -24,14 +25,8 @@ const RecentReviews = () => {
 	}, []);
 
 	return (
-		<div className="my-10">
-			<div className="flex justify-center items-center w-[70%] mx-auto gap-4 mb-10">
-				<div className="w-1/3 border-t border-t-gray-300"></div>
-				<h3 className="font-extrabold text-2xl md:text-3xl text-center mb-6>Categories">
-					Recent Reviews
-				</h3>
-				<div className="w-1/3 border-t border-t-gray-300"></div>
-			</div>
+		<div className="my-10 mt-12">
+			<HeaderTitle title={"Recent Reviews"} />
 			{!loading && (!reviews?.data || reviews.data.length === 0) && (
 				<div className="flex flex-col justify-center items-center">
 					<img
