@@ -22,7 +22,7 @@ const NavBar = () => {
 		<nav
 			className={`fixed top-0 left-1/2 transform -translate-x-1/2 z-50 transition-colors duration-300 ${
 				isScrolled
-					? "bg-[rgba(255,255,255,0.9)] shadow-lg w-[85%] md:w-[80%] top-4 md:top-8 border border-gray-350 rounded-full"
+					? "bg-[rgba(255,255,255,0.9)] shadow-lg w-[85%] md:w-[90%] lg:w-[80%] top-4 md:top-8 border border-gray-350 rounded-full"
 					: "bg-white w-full"
 			}`}
 		>
