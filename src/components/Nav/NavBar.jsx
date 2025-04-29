@@ -20,10 +20,10 @@ const NavBar = () => {
 
 	return (
 		<nav
-			className={`fixed w-full top-0 left-1/2 transform -translate-x-1/2 z-50 transition-colors duration-300 ${
+			className={`fixed top-0 left-1/2 transform -translate-x-1/2 z-50 transition-colors duration-300 ${
 				isScrolled
 					? "bg-[rgba(255,255,255,0.9)] shadow-lg w-[85%] md:w-[80%] top-4 md:top-8 border border-gray-350 rounded-full"
-					: "bg-white"
+					: "bg-white w-full"
 			}`}
 		>
 			<div className="w-full lg:w-4/5 mx-auto flex justify-between items-center py-[1rem] md:py-[1.5rem] px-[1.5rem] md:gap-1">

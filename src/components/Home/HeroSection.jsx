@@ -15,7 +15,7 @@ const HeroSection = () => {
 				<p className="md:text-xl font-normal">
 					Your review could guide someone’s best decision. Discover what others are saying, too.
 				</p>
-				<button className="bg-indigo-600 p-2 md:px-4 py-3 text-white rounded transition-colors duration-300 hover:bg-indigo-500">
+				<button className="bg-indigo-600 px-4 py-3 text-white rounded transition-colors duration-300 hover:bg-indigo-500">
 					Get Started
 				</button>
 			</div>
