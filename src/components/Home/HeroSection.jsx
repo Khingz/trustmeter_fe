@@ -6,18 +6,17 @@ const HeroSection = () => {
 	const { isMobile } = useCustomNav();
 
 	return (
-		<div className="flex md:w-5/6 px-3 mx-auto pt-24 md:pt-32 pb-10 justify-center items-center gap-2">
+		<div className="flex md:w-[90%] px-3 mx-auto pt-24 md:pt-32 pb-10 justify-center items-center gap-4">
 			{/* Left hero section */}
 			<div className="md:w-4/5 flex flex-col justify-start items-start gap-3">
 				<h2 className=" text-4xl md:text-7xl font-medium">
-					Unbaised Review To Make You Choose Wisely
+				Share Your <span className="text-indigo-500">Experiences.</span> Find the <span className="text-indigo-500">Best Products,</span> Fast
 				</h2>
 				<p className="md:text-xl font-normal">
-					We break things down with clear insights, fair perspectives, and
-					honest analysis—so you can make the best decision with confidence.
+					Your review could guide someone’s best decision. Discover what others are saying, too.
 				</p>
-				<button className="bg-indigo-600 p-2 md:px-4 py-3 text-white font-extralight rounded transition-colors duration-300 hover:bg-indigo-500">
-					See Top Reviews
+				<button className="bg-indigo-600 p-2 md:px-4 py-3 text-white rounded transition-colors duration-300 hover:bg-indigo-500">
+					Get Started
 				</button>
 			</div>
 			{/* Right Hero section  */}
