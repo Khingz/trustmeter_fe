@@ -44,12 +44,6 @@ const NavMenuDesktop = () => {
 						<div className="w-[40px] h-[40px] rounded-full bg-indigo-600 flex justify-center items-center text-white font-bold text-xl">
 							{currentUser && currentUser.name[0].toUpperCase()}
 						</div>
-						<p className="font-extralight text-lg">
-							{" "}
-							{currentUser &&
-								currentUser?.name.split(" ")[0].charAt(0).toUpperCase() +
-									currentUser?.name.split(" ")[0].slice(1)}
-						</p>
 					</Link>
 				)}
 			</div>

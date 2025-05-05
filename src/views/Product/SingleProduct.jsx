@@ -1,85 +1,40 @@
 import { useParams } from "react-router-dom";
 import DefaultImage from "../../assets/images/defaultImage.png";
 import RatingBar from "../../components/Review/RatingBar";
-import { useEffect, useState } from "react";
-import ListingService from "../../service/listingService";
+import { useState } from "react";
 import { rating_label } from "../../utils/index";
 import ReviewModalContainer from "../../components/Review/ReviewModalContainer";
 import ReviewCard from "../../components/Review/ReviewCard";
-import ReviewService from "../../service/reviewService";
 import SkeletonReviewCard from "../../components/Skeleton/ReviewCardSkeleton";
 import SkeletonReviewSummary from "../../components/Skeleton/RatingsSummarySkeleton";
 import SkeletonListingHeader from "../../components/Skeleton/ListingHeaderSkeleton";
 import Pagination from "../../components/Pagination";
 import NotFound from "../../components/common/NotFound";
+import { useReviews } from "../../hooks/useReview";
+import { useListingById, useReviewStats } from "../../hooks/useListing";
 
 const SingleProduct = () => {
 	const { id } = useParams();
-	const [reviews, setReviews] = useState(null);
-	const [listing, setListing] = useState(null);
-	const [stats, setStats] = useState(null);
-	const [loadingReviews, setLoadingReviews] = useState(true);
-	const [loadingListing, setLoadingListing] = useState(true);
-	const [loadingStats, setLoadingStats] = useState(true);
 	const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
+
+	const [pageNumber, setPageNumber] = useState(1);
 
 	const handleOpenProductModal = () => {
 		setAddReviewModalOpen(true);
 	};
 
-	const fetchReviews = async (pageNumber) => {
-		try {
-			const data = await ReviewService.getReviews({
-				page: pageNumber,
-				filters: { listing_id: id },
-			});
-			setReviews(data.data);
-		} catch (error) {
-			console.log(error);
-			console.log(error);
-		} finally {
-			setLoadingReviews(false);
-		}
-	};
+	const { data: reviews, isLoading: loadingReviews } = useReviews({
+		page: pageNumber,
+		filters: { listing_id: id },
+	});
+
+	const { data: listing, isLoading: loadingListing } = useListingById(id);
+
+	const { data: stats, isLoading: loadingStats } = useReviewStats(id);
 
 	const handlePageChange = (pageNumber) => {
-		fetchReviews(pageNumber);
+		setPageNumber(pageNumber);
 	};
-
-	useEffect(() => {
-		const fetchListing = async () => {
-			try {
-				const data = await ListingService.getListing(id);
-				setListing(data.data);
-			} catch (error) {
-				console.log(error);
-			} finally {
-				setLoadingListing(false);
-			}
-		};
-		fetchListing();
-		// eslint-disable-next-line
-	}, [id, addReviewModalOpen]);
-
-	useEffect(() => {
-		const fetchReviewStats = async () => {
-			try {
-				const data = await ListingService.getReviewStats(id);
-				setStats(data.data);
-			} catch (error) {
-				console.log(error);
-			} finally {
-				setLoadingStats(false);
-			}
-		};
-		fetchReviewStats();
-		// eslint-disable-next-line
-	}, [id, addReviewModalOpen]);
-
-	useEffect(() => {
-		fetchReviews();
-		// eslint-disable-next-line
-	}, [id, addReviewModalOpen]);
 
 	return (
 		<div className="min-h-screen mt-14 pt-10 relative">
@@ -175,26 +130,32 @@ const SingleProduct = () => {
 					</div>
 					<div className="w-[87%] border-t border-gray-200 mx-auto"></div>
 
-					{reviews && (
-						<div className="mt-22 md:py-16 md:px-32 py-6 px-6">
-							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6 mb-10 px-4 md:px-10">
-								{!loadingReviews &&
-									reviews &&
-									reviews?.data.map((review, index) => (
-										<ReviewCard key={index} review={review} />
-									))}
+					<div>
+						{reviews && (
+							<div className="mt-22 md:py-16 md:px-32 py-6 px-6">
+								<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6 mb-10 px-4 md:px-10">
+									{!loadingReviews &&
+										reviews &&
+										reviews?.data.map((review, index) => (
+											<ReviewCard key={index} review={review} />
+										))}
+								</div>
+								<div>
+									<Pagination
+										currentPage={reviews?.page}
+										totalPages={reviews?.total_pages}
+										onPageChange={handlePageChange}
+									/>
+								</div>
+							</div>
+						)}
 
-								{loadingReviews && <SkeletonReviewCard count={6} />}
+						{loadingReviews && (
+							<div className="mt-22 md:py-16 md:px-32 py-6 px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+								<SkeletonReviewCard count={3} />
 							</div>
-							<div>
-								<Pagination
-									currentPage={reviews?.page}
-									totalPages={reviews?.total_pages}
-									onPageChange={handlePageChange}
-								/>
-							</div>
-						</div>
-					)}
+						)}
+					</div>
 					{addReviewModalOpen && (
 						<ReviewModalContainer
 							product={listing}

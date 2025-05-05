@@ -9,7 +9,7 @@ const HeroSection = () => {
 		<div className="flex md:w-[90%] px-3 mx-auto pt-24 md:pt-32 pb-10 justify-center items-center gap-4">
 			{/* Left hero section */}
 			<div className="md:w-4/5 flex flex-col justify-start items-start gap-3">
-				<h2 className=" text-4xl md:text-7xl font-medium">
+				<h2 className=" text-4xl md:text-5xl lg:text-7xl font-medium">
 				Share Your <span className="text-indigo-500">Experiences.</span> Find the <span className="text-indigo-500">Best Products,</span> Fast
 				</h2>
 				<p className="md:text-xl font-normal">

@@ -1,33 +1,22 @@
 import { Link } from "react-router-dom";
 import ReviewCard from "../Review/ReviewCard";
-import { useEffect, useState } from "react";
-import ReviewService from "../../service/reviewService";
 import SkeletonReviewCard from "../Skeleton/ReviewCardSkeleton";
 import EmptyImage from "../../assets/images/no-data.png";
 import HeaderTitle from "../common/HeaderTitle";
+import { useReviews } from "../../hooks/useReview";
 
 const RecentReviews = () => {
-	const [reviews, setReviews] = useState(null);
-	const [loading, setLoading] = useState(true);
+	const { data: reviews, isLoading } = useReviews({
+		pageSize: 6,
+		page: 1,
+	});
 
-	useEffect(() => {
-		const fetchReviews = async () => {
-			try {
-				const data = await ReviewService.getReviews({ pageSize: 6 });
-				setReviews(data.data);
-			} catch (error) {
-				console.log(error);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchReviews();
-	}, []);
+	const hasNoData = !isLoading && (!reviews?.data || reviews.data.length === 0);
 
 	return (
 		<div className="my-10 mt-12">
 			<HeaderTitle title={"Recent Reviews"} />
-			{!loading && (!reviews?.data || reviews.data.length === 0) && (
+			{hasNoData && (!reviews?.data || reviews.data.length === 0) && (
 				<div className="flex flex-col justify-center items-center">
 					<img
 						src={EmptyImage}
@@ -40,10 +29,10 @@ const RecentReviews = () => {
 					</p>
 				</div>
 			)}
-			{!loading && reviews?.data && reviews.data.length > 0 && (
+			{!isLoading && reviews?.data && reviews.data.length > 0 && (
 				<div>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-8 md:px-20">
-						{!loading &&
+						{!isLoading &&
 							reviews &&
 							reviews?.data.map((review, index) => (
 								<ReviewCard key={index} review={review} />
@@ -59,7 +48,7 @@ const RecentReviews = () => {
 					</div>
 				</div>
 			)}
-			{loading && (
+			{isLoading && (
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-8 md:px-20">
 					<SkeletonReviewCard count={6} />
 				</div>

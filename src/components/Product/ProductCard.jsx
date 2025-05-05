@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
 				/>
 				<div className="p-4">
 					<h2 className="text-lg font-semibold text-gray-800">
-						{product?.name || "Tesla"}
+						{product?.name.toUpperCase()}
 					</h2>
 				</div>
 			</div>

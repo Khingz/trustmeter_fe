@@ -17,6 +17,7 @@ import AddProduct from "./views/Product/AddProduct";
 import SingleProduct from "./views/Product/SingleProduct";
 import { ToastContainer } from "react-toastify";
 import ProductListing from "./views/Product/ProductListing";
+import ScrollToTop from "./utils";
 
 function App() {
 	return (
@@ -28,6 +29,8 @@ function App() {
 				theme="light"
 			/>
 			<Router>
+				<ScrollToTop />
+
 				<Routes>
 					{/* Routes that does not require login to be accessed but should not be accessed when logedin */}
 					<Route element={<PublicRoute />}>
