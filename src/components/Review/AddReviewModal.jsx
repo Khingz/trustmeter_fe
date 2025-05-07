@@ -6,31 +6,31 @@ import { getFromLocalStorage } from "../../utils/localStorage";
 import { AnimatePresence } from "framer-motion";
 import ErrorAlert from "../common/ErrorAlert";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import { useAddReview } from "../../hooks/useReview";
 
 const AddReview = ({ product, setAddReviewModalOpen }) => {
 	const navigate = useNavigate();
 	const [rating, setRating] = React.useState(0);
 	const [comment, setComment] = React.useState("");
 	const [error, setError] = React.useState(null);
-	const [loading, setLoading] = React.useState(false);
+	// const [loading, setLoading] = React.useState(false);
+
+	const { mutate, loading } = useAddReview();
 
 	const user_id = getFromLocalStorage("currentUser").id;
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setLoading(true);
 		setError(null);
 
 		if (rating === 0) {
 			setError("Please select a rating");
-			setLoading(false);
 			return;
 		}
 
 		if (comment.trim() === "") {
 			setError("Please enter a comment");
-			setLoading(false);
 			return;
 		}
 
@@ -42,7 +42,8 @@ const AddReview = ({ product, setAddReviewModalOpen }) => {
 		};
 
 		try {
-			await ReviewService.addReview(reviewData);
+			// await ReviewService.addReview(reviewData);
+			mutate(reviewData)
 			setRating(0);
 			setComment("");
 			setAddReviewModalOpen(false);
@@ -50,8 +51,6 @@ const AddReview = ({ product, setAddReviewModalOpen }) => {
 			toast.success("Review submitted successfully!");
 		} catch (error) {
 			setError("Failed to submit review. Please try again.");
-		} finally {
-			setLoading(false);
 		}
 	};
 

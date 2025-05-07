@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ReviewService from "../service/reviewService";
 
 export const useReviews = ({
@@ -20,6 +20,19 @@ export const useReviews = ({
 			}),
 		keepPreviousData: true,
 		staleTime: 1000 * 60 * 5,
-        select: (data) => data?.data
+		select: (data) => data?.data,
+	});
+};
+
+export const useAddReview = () => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: (credentials) => ReviewService.addReview(credentials),
+		onSuccess: (newItem) => {
+			queryClient.invalidateQueries({ queryKey: ["reviews"] });
+			queryClient.invalidateQueries({ queryKey: ["reviewStat"] });
+			queryClient.invalidateQueries({ queryKey: ["product"] });
+		},
 	});
 };

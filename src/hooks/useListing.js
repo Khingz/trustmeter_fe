@@ -26,7 +26,7 @@ export const useListing = ({
 
 export const useListingById = (id) => {
 	return useQuery({
-		queryKey: ["products", id],
+		queryKey: ["product", id],
 		queryFn: () => ListingService.getListing(id),
 		keepPreviousData: true,
 		staleTime: 1000 * 60 * 5,
@@ -36,7 +36,7 @@ export const useListingById = (id) => {
 
 export const useReviewStats = (id) => {
 	return useQuery({
-		queryKey: ["products", id, "stats"],
+		queryKey: ["reviewStat", id, "stats"],
 		queryFn: () => ListingService.getReviewStats(id),
 		keepPreviousData: true,
 		staleTime: 1000 * 60 * 5,
