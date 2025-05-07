@@ -46,7 +46,7 @@ const AddReview = ({ product, setAddReviewModalOpen }) => {
 			setRating(0);
 			setComment("");
 			setAddReviewModalOpen(false);
-			navigate("/product/" + product.id);
+			navigate("/products/" + product.id);
 			toast.success("Review submitted successfully!");
 		} catch (error) {
 			setError("Failed to submit review. Please try again.");

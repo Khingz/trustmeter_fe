@@ -6,7 +6,7 @@ import ProductCardSkeleton from "../Skeleton/ProductCardSkeleton";
 
 const ProductSection = () => {
 	const { data: products, isLoading } = useListing({
-		pageSize: 4,
+		pageSize: 3,
 		page: 1,
 	});
 

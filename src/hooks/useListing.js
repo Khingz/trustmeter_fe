@@ -5,7 +5,7 @@ export const useListing = ({
 	page = 1,
 	searchBy = undefined,
 	searchTerm = undefined,
-	pageSize = 6,
+	pageSize = 30,
 	filters = {},
 } = {}) => {
 	return useQuery({

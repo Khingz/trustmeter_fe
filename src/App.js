@@ -18,6 +18,7 @@ import SingleProduct from "./views/Product/SingleProduct";
 import { ToastContainer } from "react-toastify";
 import ProductListing from "./views/Product/ProductListing";
 import ScrollToTop from "./utils";
+import ReviewListings from "./views/Review/ReviewsListing";
 
 function App() {
 	return (
@@ -62,6 +63,7 @@ function App() {
 						<Route path="/add-product" element={<AddProduct />} />
 						<Route path="/products/:id" element={<SingleProduct />} />
 						<Route path="/products" element={<ProductListing />} />
+						<Route path="/reviews" element={<ReviewListings />} />
 					</Route>
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
