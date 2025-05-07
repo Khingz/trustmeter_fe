@@ -62,17 +62,6 @@ const SingleProduct = () => {
 										<h3 className="text-[2rem] md:text-[4rem] font-extralight mt-1 capitalize">
 											{listing.name}
 										</h3>
-										{stats && (
-											<div className="bg-white border border-gray-250 p-2 md:py-3 md:px-4 rounded-md">
-												<span className="text-xl bg-gray-50 p-1 rounded-full border border-gray-300 mr-2">
-													⭐
-												</span>
-												<span className="text-sm text-gray-900 font-bold ">
-													{stats.total_reviews}{" "}
-													{stats.total_reviews > 1 ? "Reviews" : "Review"}
-												</span>
-											</div>
-										)}
 									</div>
 								</div>
 

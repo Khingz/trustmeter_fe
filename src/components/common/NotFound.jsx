@@ -17,7 +17,7 @@ const NotFound = () => {
 				/>
 			</svg>
 			<h2 className="text-2xl md:text-3xl font-semibold text-gray-700 mb-2">
-				No Items Found
+				No Item Found
 			</h2>
 			<p className="text-gray-500 text-center max-w-sm">
 				Sorry, we couldn't find this item

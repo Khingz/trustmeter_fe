@@ -12,9 +12,9 @@ const ProductCardSkeleton = ({ count = 1 }) => {
 						key={index}
 						className="overflow-hidden shadow-sm bg-white rounded-md"
 					>
-						<Skeleton height={192} width="100%" /> {/* Image skeleton */}
+						<Skeleton height={192} width="100%" /> 
 						<div className="p-4">
-							<Skeleton height={24} width={`80%`} /> {/* Title skeleton */}
+							<Skeleton height={24} width={`80%`} />
 						</div>
 					</div>
 				))}

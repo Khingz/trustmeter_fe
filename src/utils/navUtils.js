@@ -9,10 +9,10 @@ export const navLinks = [
 	},
 	{
 		name: "Leave a Review",
-		url: "/review",
+		url: "/review/",
 	},
 	{
 		name: "Products",
-		url: "/products",
+		url: "/products/",
 	}
 ];

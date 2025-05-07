@@ -61,7 +61,6 @@ function App() {
 						<Route path="/review" element={<WriteReview />} />
 						<Route path="/add-product" element={<AddProduct />} />
 						<Route path="/products/:id" element={<SingleProduct />} />
-						<Route path="/product/test-single" element={<SingleProduct />} />
 						<Route path="/products" element={<ProductListing />} />
 					</Route>
 					<Route path="*" element={<NotFoundPage />} />
