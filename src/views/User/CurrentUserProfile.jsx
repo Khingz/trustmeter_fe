@@ -1,12 +1,14 @@
 import { useState } from "react";
+import GeneralInfo from "../../components/User/GeneralInfo";
+import SecurityInfo from "../../components/User/Security";
 
-const tabs = ["General", "Security", "Notifications"];
+const tabs = ["General", "Security", "Your Reviews"];
 
 const CurrentUserProfile = () => {
 	const [activeTab, setActiveTab] = useState("General");
 
 	return (
-		<div className="max-w-4xl mx-auto p-4">
+		<div className="max-w-4xl mx-auto p-4 mt-24">
 			<h1 className="text-2xl font-bold mb-6">User Profile</h1>
 
 			<div className="border-b border-gray-200 mb-4">
@@ -29,19 +31,11 @@ const CurrentUserProfile = () => {
 
 			<div className="bg-white p-6 rounded-md shadow">
 				{activeTab === "General" && (
-					<div>
-						<h2 className="text-lg font-semibold mb-2">General Information</h2>
-						{/* General content here */}
-						<p>Username, Email, Full Name, etc.</p>
-					</div>
+					<GeneralInfo />
 				)}
 
 				{activeTab === "Security" && (
-					<div>
-						<h2 className="text-lg font-semibold mb-2">Security Settings</h2>
-						{/* Security content here */}
-						<p>Change password, 2FA settings, etc.</p>
-					</div>
+					<SecurityInfo />
 				)}
 			</div>
 		</div>
