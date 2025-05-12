@@ -1,13 +1,13 @@
 import React from "react";
 import Rating from "../Rating";
 import DefaultImage from "../../assets/images/defaultImage.png";
-import ReviewService from "../../service/reviewService";
 import { getFromLocalStorage } from "../../utils/localStorage";
 import { AnimatePresence } from "framer-motion";
 import ErrorAlert from "../common/ErrorAlert";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAddReview } from "../../hooks/useReview";
+import LoadingSpinner from "../LoadingSpinner";
 
 const AddReview = ({ product, setAddReviewModalOpen }) => {
 	const navigate = useNavigate();
@@ -43,7 +43,7 @@ const AddReview = ({ product, setAddReviewModalOpen }) => {
 
 		try {
 			// await ReviewService.addReview(reviewData);
-			mutate(reviewData)
+			mutate(reviewData);
 			setRating(0);
 			setComment("");
 			setAddReviewModalOpen(false);
@@ -94,8 +94,9 @@ const AddReview = ({ product, setAddReviewModalOpen }) => {
 					<button
 						className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-md pointer"
 						onClick={handleSubmit}
+						disabled={loading}
 					>
-						Submit Review
+						{loading ? <LoadingSpinner /> : "Submit Review"}
 					</button>
 				</div>
 			)}

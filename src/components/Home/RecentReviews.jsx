@@ -43,7 +43,7 @@ const RecentReviews = () => {
 							to={"/reviews"}
 							className="text-white bg-indigo-600 rounded-lg py-3 px-6 transition-colors duration-300 hover:bg-indigo-500"
 						>
-							See more reviews
+							See all reviews
 						</Link>
 					</div>
 				</div>

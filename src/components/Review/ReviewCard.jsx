@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import StarRating from "../StarRating";
 import { formatDateToShortUS } from "../../utils";
 import DefaultImage from "../../assets/images/defaultImage.png";
 import { getFromLocalStorage } from "../../utils/localStorage";
+import DetailedReview from "./DetailedReview";
 
 const ReviewCard = ({ review }) => {
 	const user_id = getFromLocalStorage("currentUser")?.id;
+	const [detailReviewModolOpen, setDetailReviewModolOpen] = useState(false);
+
+	const handleReadMore = () => {
+		setDetailReviewModolOpen(!detailReviewModolOpen);
+	}
 
 	return (
 		<div className="bg-white border border-gray-200 rounded-sm overflow-hidden p-4 flex flex-col justify-between">
@@ -47,10 +53,14 @@ const ReviewCard = ({ review }) => {
 					<p className="capitalize">{review?.listings?.name}</p>
 				</div>
 
-				<button className="text-blue-500 hover:underline text-sm">
+				<button className="text-blue-500 hover:underline text-sm" onClick={handleReadMore}>
 					Read More
 				</button>
 			</div>
+
+			{
+				detailReviewModolOpen && <DetailedReview handleClose={handleReadMore} review={review} userId={user_id} />
+			}
 		</div>
 	);
 };

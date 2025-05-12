@@ -1,13 +1,14 @@
 import apiClient from "../utils/apiClient";
 
 const ListingService = {
-	getListings: async ({ page = 1, searchBy, searchTerm } = {}) => {
+	getListings: async ({ page = 1, searchBy, searchTerm, pageSize } = {}) => {
 		try {
 			const params = new URLSearchParams();
 
 			params.append("page", page);
 			if (searchBy) params.append("search_by", searchBy);
 			if (searchTerm) params.append("search_term", searchTerm);
+			if (pageSize) params.append("page_size", pageSize);
 
 			const response = await apiClient.get(
 				`/api/v1/listings?${params.toString()}`
