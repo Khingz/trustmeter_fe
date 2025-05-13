@@ -50,6 +50,7 @@ export const ListingsProvider = ({ children }) => {
 				listings,
 				addListing,
 				getListings,
+				setListings
 			}}
 		>
 			{children}

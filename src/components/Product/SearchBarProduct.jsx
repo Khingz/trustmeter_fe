@@ -1,49 +1,58 @@
 import { CiSearch } from "react-icons/ci";
 import SuggestAddProduct from "./SuggestAddProduct";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DefaultImage from "../../assets/images/defaultImage.png";
 import LoadingSpinner from "../LoadingSpinner";
 import ReviewModalContainer from "../../components/Review/ReviewModalContainer";
 import { useListings } from "../../context/listingContext";
+import { debounce } from "lodash";
 
 const SearchBarProduct = () => {
 	const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
 	const [productName, setProductName] = useState("");
-	const { getListings, listings } = useListings();
+	const { getListings, listings, setListings } = useListings();
 	const [loading, setLoading] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 
-	const handleChange = async (e) => {
+	const debouncedSearch = useRef(
+		debounce(async (value) => {
+			if (!value.trim()) return;
+			setLoading(true);
+			try {
+				await getListings(1, "name", value);
+			} catch (error) {
+				console.log(error);
+			} finally {
+				setLoading(false);
+			}
+		}, 400)
+	).current;
+
+	const handleChange = (e) => {
+		const value = e.target.value;
 		setLoading(true);
-		try {
-			setProductName(e.target.value);
-			await getListings(1, "name", e.target.value);
-		} catch (error) {
-			console.log(error);
-		} finally {
-			setLoading(false);
-		}
+		setListings(null);
+		setProductName(value);
+		debouncedSearch(value);
 	};
 
-	const filteredProducts =
-		listings &&
-		listings?.data?.filter((product) =>
-			product.name.toLowerCase().includes(productName.toLowerCase())
-		);
-
 	const handleOpenProductModal = (product) => {
-		if (product === "") return;
+		if (!product) return;
 		setSelectedProduct(product);
 		setAddReviewModalOpen(true);
 	};
 
-	useEffect(() => {}, [filteredProducts]);
+	useEffect(() => {
+		return () => {
+			debouncedSearch.cancel();
+		};
+	}, [debouncedSearch]);
 
 	return (
 		<>
 			<form
 				className="flex items-center border border-gray-300 rounded-lg overflow-hidden bg-white text-black"
-				onSubmit={handleChange}
+				onSubmit={(e) => e.preventDefault()}
 			>
 				<input
 					type="text"
@@ -52,14 +61,24 @@ const SearchBarProduct = () => {
 					onChange={handleChange}
 					value={productName}
 				/>
-				<button className="text-black text-2xl font-bold px-4 py-2">
+				<button
+					type="button"
+					className="text-black text-2xl font-bold px-4 py-2"
+				>
 					<CiSearch />
 				</button>
 			</form>
+
+			{productName !== "" && loading && (
+				<div className="absolute mt-2 w-4/5 md:w-1/2 bg-white border border-gray-300 rounded-lg shadow-lg z-50 p-4">
+					<LoadingSpinner />
+				</div>
+			)}
+
 			{listings && productName !== "" && (
-				<div className="absolute mt-2 w-4/5 md:w-1/2 bg-white border border-gray-300 rounded-lg shadow-lg z-50">
-					{filteredProducts && filteredProducts.length > 0 ? (
-						filteredProducts.map((product) => (
+				<div className="absolute mt-2 w-4/5 md:w-1/2 bg-white border border-gray-300 rounded-lg shadow-lg z-50 overflow-y-auto max-h-96">
+					{listings?.data.length > 0 ? (
+						listings?.data.map((product) => (
 							<div
 								key={product.id}
 								className="p-2 hover:bg-gray-100 cursor-pointer border-b border-gray-200"
@@ -79,11 +98,7 @@ const SearchBarProduct = () => {
 						))
 					) : (
 						<div className="p-2 text-gray-800">
-							{!loading ? (
-								<SuggestAddProduct name={productName} />
-							) : (
-								<LoadingSpinner />
-							)}
+							<SuggestAddProduct name={productName} />
 						</div>
 					)}
 				</div>
