@@ -1,8 +1,9 @@
 import { useState } from "react";
 import LoadingSpinner from "../LoadingSpinner";
-import { isValidEmail } from "../../utils";
 import { getFromLocalStorage } from "../../utils/localStorage";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import ErrorAlert from "../common/ErrorAlert";
+import { AnimatePresence } from "motion/react";
 
 const SecurityInfo = () => {
 	const user_id = getFromLocalStorage("currentUser").id;
@@ -10,17 +11,25 @@ const SecurityInfo = () => {
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
-    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
-    const [isOldPasswordVisible, setIsOldPasswordVisible] = useState(false);
+	const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+		useState(false);
+	const [isOldPasswordVisible, setIsOldPasswordVisible] = useState(false);
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
-
-	const handleChange = (e) => {};
 
 	const handleSubmit = async (e) => {
 		setLoading(true);
 		try {
 			e.preventDefault();
+			if (!oldPassword || !newPassword || !confirmPassword) {
+				setError("All fields is required");
+				return;
+			}
+
+			if (newPassword !== confirmPassword) {
+				setError("Passwords do not match");
+				return;
+			}
 		} catch (error) {
 			setError(error.message);
 		} finally {
@@ -30,7 +39,10 @@ const SecurityInfo = () => {
 
 	return (
 		<div className="general-info">
-			<h2 className="text-lg font-semibold mb-2">Change Password</h2>
+			<h2 className="text-lg font-semibold mb-4">Change Password</h2>
+			<AnimatePresence>
+				{error && <ErrorAlert message={error} />}
+			</AnimatePresence>
 			<div className="my-6">
 				<form onSubmit={handleSubmit}>
 					<div className="my-2">
@@ -45,7 +57,7 @@ const SecurityInfo = () => {
 								type={isOldPasswordVisible ? "text" : "password"}
 								id="password"
 								name="password"
-								placeholder="Enter your password"
+								placeholder="Enter your old password"
 								className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
 								onChange={(e) => setOldPassword(e.target.value)}
 							/>
@@ -69,7 +81,7 @@ const SecurityInfo = () => {
 								type={isNewPasswordVisible ? "text" : "password"}
 								id="password"
 								name="password"
-								placeholder="Enter your password"
+								placeholder="Enter your new password"
 								className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
 								onChange={(e) => setNewPassword(e.target.value)}
 							/>
@@ -93,13 +105,15 @@ const SecurityInfo = () => {
 								type={isConfirmPasswordVisible ? "text" : "password"}
 								id="password"
 								name="password"
-								placeholder="Enter your password"
+								placeholder="Confirm password"
 								className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
 								onChange={(e) => setConfirmPassword(e.target.value)}
 							/>
 							<div
 								className="absolute inset-y-0 right-2 flex items-center text-indigo-600 text-lg cursor"
-								onClick={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+								onClick={() =>
+									setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
+								}
 							>
 								{isConfirmPasswordVisible ? <FaRegEye /> : <FaRegEyeSlash />}
 							</div>

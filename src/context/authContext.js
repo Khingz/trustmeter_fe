@@ -11,6 +11,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
 	const [token, setToken] = useState(null);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [isLoading, setIsloading] = useState(true);
 	const [currentUser, setCurrentUser] = useState(null);
 
 	const login = async (credentials) => {
@@ -65,6 +66,8 @@ export const AuthProvider = ({ children }) => {
 			}
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setIsloading(false);
 		}
 	};
 
@@ -110,6 +113,7 @@ export const AuthProvider = ({ children }) => {
 				logout,
 				forgotPassword,
 				resetPassword,
+				isLoading,
 			}}
 		>
 			{children}
