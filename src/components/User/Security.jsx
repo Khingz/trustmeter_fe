@@ -9,7 +9,6 @@ import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 
 const SecurityInfo = () => {
-	const user_id = getFromLocalStorage("currentUser").id;
 	const [oldPassword, setOldPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");

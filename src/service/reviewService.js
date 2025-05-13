@@ -4,7 +4,6 @@ const ReviewService = {
 	getReviews: async ({ page = 1, searchBy, searchTerm, pageSize, filters = {} }) => {
 		try {
 			const params = new URLSearchParams();
-
 			params.append("page", page);
 			if (searchBy) params.append("search_by", searchBy);
 			if (searchTerm) params.append("search_term", searchTerm);

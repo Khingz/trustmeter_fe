@@ -1,14 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { getNavLinkClass, navLinks } from "../../utils/navUtils";
 import { useAuth } from "../../context/authContext";
 import { FaRegUser } from "react-icons/fa";
 import { PiSignOutBold } from "react-icons/pi";
 
 const NavMenuDesktop = () => {
-	const { isLoggedIn, currentUser } = useAuth();
+	const { isLoggedIn, currentUser, logout } = useAuth();
 	const [open, setOpen] = useState(false);
 	const dropdownRef = useRef(null);
+	const navigate = useNavigate();
+
+	const handleLogout = async () => {
+		await logout();
+		navigate("/login");
+	};
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
@@ -75,7 +81,10 @@ const NavMenuDesktop = () => {
 											setOpen(false);
 										}}
 									>
-										<div className="flex gap-3 items-center">
+										<div
+											className="flex gap-3 items-center"
+											onClick={handleLogout}
+										>
 											<PiSignOutBold />
 											Logout
 										</div>

@@ -9,11 +9,6 @@ const DetailedReview = ({ handleClose, review, userId }) => {
 			<div className="w-[90%] md:w-2/3 lg:w-1/2 bg-gray-50 rounded p-4 md:p-10 relative">
 				<div className="bg-white border border-gray-200 rounded-sm overflow-y-auto max-h-96 p-4 flex flex-col justify-between">
 					<div className="flex items-center space-x-4 mb-4">
-						{/* <img
-					src="https://via.placeholder.com/60"
-					alt="Reviewer"
-					className="w-14 h-14 rounded-full object-cover"
-				/> */}
 						<div className="w-14 h-14 rounded-full flex justify-center items-center bg-gray-400 text-white font-bold text-xl">
 							<p>{review?.user?.name.slice(0, 2).toUpperCase()}</p>
 						</div>
@@ -47,7 +42,7 @@ const DetailedReview = ({ handleClose, review, userId }) => {
 					<div className="w-full border-t border-gray-200 mx-auto my-6"></div>
 					<p className="text-gray-700 mb-4">"{review?.comment}"</p>
 				</div>
-				<div className="absolute top-2 right-2 text-3xl">
+				<div className="absolute top-2 right-2 text-3xl cursor-pointer">
 					<div onClick={handleClose}>
 						<IoMdClose />
 					</div>

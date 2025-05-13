@@ -28,7 +28,7 @@ const GeneralInfo = () => {
 			e.preventDefault();
 			const { name, email } = userData;
 
-			if (!name || !email) {
+			if (!name) {
 				setError("All fields is required");
 				return;
 			}
@@ -83,9 +83,9 @@ const GeneralInfo = () => {
 							type="text"
 							id="email"
 							name="email"
+							disabled={true}
 							placeholder="Update your email"
-							className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-							onChange={handleChange}
+							className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-gray-500 cursor-not-allowed"
 							value={userData.email}
 						/>
 					</div>

@@ -10,6 +10,7 @@ const NavBar = () => {
 	const [isScrolled, setIsScrolled] = useState(false);
 	const { isNavOpen, handleNavToggle, isMobile } = useCustomNav();
 
+
 	useEffect(() => {
 		const onScroll = () => handleScroll(setIsScrolled);
 		window.addEventListener("scroll", onScroll);
