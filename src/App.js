@@ -54,13 +54,13 @@ function App() {
 					{/* Routes that require login to be accessed */}
 					<Route element={<ProtectedRoute />}>
 						<Route path="/profile" element={<CurrentUserProfile />} />
-						<Route path="/profile" element={<CurrentUserProfile />} />
+						<Route path="/add-product" element={<AddProduct />} />
+						<Route path="/review" element={<WriteReview />} />
+
 					</Route>
 					{/* Other routes that can be accessed whether logged in or not */}
 					<Route path="/" element={<MainLayout />}>
 						<Route index element={<Home />} />
-						<Route path="/review" element={<WriteReview />} />
-						<Route path="/add-product" element={<AddProduct />} />
 						<Route path="/products/:id" element={<SingleProduct />} />
 						<Route path="/products" element={<ProductListing />} />
 						<Route path="/reviews" element={<ReviewListings />} />

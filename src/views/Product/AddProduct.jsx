@@ -13,8 +13,6 @@ const AddProduct = () => {
 	const [loading, setLoading] = useState(false);
 	const { addListing } = useListings();
 
-	console.log(product);
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);

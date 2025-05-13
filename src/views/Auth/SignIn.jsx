@@ -73,7 +73,7 @@ const SignIn = () => {
 
 	return (
 		<div className="w-full min-h-screen bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
-			<div className="w-[90%] md:w-1/3 bg-gray-50 rounded p-4 md:p-6 relative">
+			<div className="w-[90%] md:w-2/3 lg:w-1/3 bg-gray-50 rounded p-4 md:p-6 relative">
 				<h3 className="text-gray-700 font-bold text-2xl text-center">Login</h3>
 				<p className="text-lg text-center text-gray-700">
 					Enter your login details

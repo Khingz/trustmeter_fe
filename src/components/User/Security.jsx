@@ -4,6 +4,9 @@ import { getFromLocalStorage } from "../../utils/localStorage";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import ErrorAlert from "../common/ErrorAlert";
 import { AnimatePresence } from "motion/react";
+import { toast } from "react-toastify";
+import { useAuth } from "../../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 const SecurityInfo = () => {
 	const user_id = getFromLocalStorage("currentUser").id;
@@ -16,6 +19,8 @@ const SecurityInfo = () => {
 	const [isOldPasswordVisible, setIsOldPasswordVisible] = useState(false);
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const { changePassword, logout } = useAuth();
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
 		setLoading(true);
@@ -30,6 +35,20 @@ const SecurityInfo = () => {
 				setError("Passwords do not match");
 				return;
 			}
+			const response = await changePassword({
+				new_password: newPassword,
+				old_password: oldPassword,
+			});
+			if (response.error) {
+				setError(response.message);
+				return;
+			}
+			setConfirmPassword("");
+			setNewPassword("");
+			setOldPassword("");
+			toast.success(response.message);
+			await logout();
+			navigate("/login");
 		} catch (error) {
 			setError(error.message);
 		} finally {
@@ -55,11 +74,14 @@ const SecurityInfo = () => {
 						<div className="relative">
 							<input
 								type={isOldPasswordVisible ? "text" : "password"}
-								id="password"
-								name="password"
+								id="old_password"
+								name="old password"
 								placeholder="Enter your old password"
 								className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-								onChange={(e) => setOldPassword(e.target.value)}
+								onChange={(e) => {
+									setError("");
+									setOldPassword(e.target.value);
+								}}
 							/>
 							<div
 								className="absolute inset-y-0 right-2 flex items-center text-indigo-600 text-lg cursor"
@@ -79,11 +101,14 @@ const SecurityInfo = () => {
 						<div className="relative">
 							<input
 								type={isNewPasswordVisible ? "text" : "password"}
-								id="password"
-								name="password"
+								id="new_password"
+								name="new password"
 								placeholder="Enter your new password"
 								className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-								onChange={(e) => setNewPassword(e.target.value)}
+								onChange={(e) => {
+									setError("");
+									setNewPassword(e.target.value);
+								}}
 							/>
 							<div
 								className="absolute inset-y-0 right-2 flex items-center text-indigo-600 text-lg cursor"
@@ -103,11 +128,14 @@ const SecurityInfo = () => {
 						<div className="relative">
 							<input
 								type={isConfirmPasswordVisible ? "text" : "password"}
-								id="password"
-								name="password"
+								id="confirm_password"
+								name="confirm password"
 								placeholder="Confirm password"
 								className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-								onChange={(e) => setConfirmPassword(e.target.value)}
+								onChange={(e) => {
+									setError("");
+									setConfirmPassword(e.target.value);
+								}}
 							/>
 							<div
 								className="absolute inset-y-0 right-2 flex items-center text-indigo-600 text-lg cursor"

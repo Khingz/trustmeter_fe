@@ -96,6 +96,18 @@ export const AuthProvider = ({ children }) => {
 		}
 	};
 
+	const changePassword = async (credentials) => {
+		try {
+			const response = await AuthService.changePassword(credentials);
+			if (response.error) {
+				throw new Error(response.message);
+			}
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	};
+
 	useEffect(() => {
 		getCurrentUser();
 	}, []);
@@ -114,6 +126,7 @@ export const AuthProvider = ({ children }) => {
 				forgotPassword,
 				resetPassword,
 				isLoading,
+				changePassword
 			}}
 		>
 			{children}

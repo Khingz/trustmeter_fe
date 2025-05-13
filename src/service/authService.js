@@ -58,6 +58,20 @@ const AuthService = {
 			return { error: true, message: error?.response?.data?.message };
 		}
 	},
+
+	changePassword: async (credentials) => {
+		try {
+			const response = await apiClient.patch(
+				"/api/v1/auth/change-password",
+				credentials
+			);
+			return response.data;
+		} catch (error) {
+			console.log(error)
+			const errorMsg = error?.response?.data?.message;
+			return { error: true, message: errorMsg || "An unknown error occurred" };
+		}
+	}
 };
 
 export default AuthService;
