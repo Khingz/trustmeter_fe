@@ -62,7 +62,7 @@ const NavMenuDesktop = () => {
 							className="w-[40px] h-[40px] rounded-full bg-indigo-600 flex justify-center items-center text-white font-bold text-xl cursor-pointer"
 							onClick={() => setOpen((prev) => !prev)}
 						>
-							{currentUser && currentUser.name[0].toUpperCase()}
+							{currentUser && currentUser?.name[0].toUpperCase()}
 							{open && (
 								<div className="absolute right-18 top-16 mt-2 w-40 bg-white border border-gray-200 rounded shadow-lg z-50 text-gray-700 flex flex-col justify-start items-center gap-1 px-2 py-2 font-normal text-base">
 									<Link

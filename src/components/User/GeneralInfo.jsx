@@ -1,7 +1,10 @@
 import { useState } from "react";
 import LoadingSpinner from "../LoadingSpinner";
-import { isValidEmail } from "../../utils";
 import { getFromLocalStorage } from "../../utils/localStorage";
+import { AnimatePresence } from "motion/react";
+import ErrorAlert from "../common/ErrorAlert";
+import { useAuth } from "../../context/authContext";
+import { toast } from "react-toastify";
 
 const GeneralInfo = () => {
 	const user = getFromLocalStorage("currentUser");
@@ -11,6 +14,7 @@ const GeneralInfo = () => {
 	});
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const { updateUser } = useAuth();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -26,23 +30,17 @@ const GeneralInfo = () => {
 		setLoading(true);
 		try {
 			e.preventDefault();
-			const { name, email } = userData;
+			const { name } = userData;
 
 			if (!name) {
 				setError("All fields is required");
 				return;
 			}
-			if (!isValidEmail(email)) {
-				setError("Please enter a valid email");
-				return;
-			}
 			const credentials = {
 				name,
-				email,
 			};
-			// await register(credentials);
-			// navigate("/login");
-			// toast.success("Registration successful");
+			await updateUser(credentials);
+			toast.success("Registration successful");
 		} catch (error) {
 			setError(error.message);
 		} finally {
@@ -53,6 +51,9 @@ const GeneralInfo = () => {
 	return (
 		<div className="general-info">
 			<h2 className="text-lg font-semibold mb-2">General Information</h2>
+			<AnimatePresence>
+				{error && <ErrorAlert message={error} />}
+			</AnimatePresence>
 			<div className="my-6">
 				<form onSubmit={handleSubmit}>
 					<div className="my-2">
@@ -97,9 +98,9 @@ const GeneralInfo = () => {
 						>
 							{loading ? <LoadingSpinner /> : "Update Info"}
 						</button>
-                        <button className=" hover:bg-red-300 bg-red-200 text-red-500 text-base py-2 px-4 rounded">
-                            Logout
-                        </button>
+						<button className=" hover:bg-red-300 bg-red-200 text-red-500 text-base py-2 px-4 rounded">
+							Logout
+						</button>
 					</div>
 				</form>
 			</div>

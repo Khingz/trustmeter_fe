@@ -63,6 +63,8 @@ export const AuthProvider = ({ children }) => {
 			if (!isValidLoggin) {
 				setIsLoggedIn(false);
 				setCurrentUser(null);
+			} else {
+				saveToLocalStorage("currentUser", isValidLoggin.data);
 			}
 		} catch (error) {
 			console.log(error);
@@ -108,6 +110,20 @@ export const AuthProvider = ({ children }) => {
 		}
 	};
 
+	const updateUser = async (credentials) => {
+		try {
+			const response = await AuthService.updateUser(credentials);
+			if (response.error) {
+				throw new Error(response.message);
+			}
+			console.log(response)
+			saveToLocalStorage("currentUser", response.data);
+			return response;
+		} catch (error) {
+			throw error;
+		}
+	};
+
 	useEffect(() => {
 		getCurrentUser();
 	}, []);
@@ -126,7 +142,8 @@ export const AuthProvider = ({ children }) => {
 				forgotPassword,
 				resetPassword,
 				isLoading,
-				changePassword
+				changePassword,
+				updateUser
 			}}
 		>
 			{children}

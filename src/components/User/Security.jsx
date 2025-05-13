@@ -1,6 +1,5 @@
 import { useState } from "react";
 import LoadingSpinner from "../LoadingSpinner";
-import { getFromLocalStorage } from "../../utils/localStorage";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import ErrorAlert from "../common/ErrorAlert";
 import { AnimatePresence } from "motion/react";

@@ -67,7 +67,19 @@ const AuthService = {
 			);
 			return response.data;
 		} catch (error) {
-			console.log(error)
+			const errorMsg = error?.response?.data?.message;
+			return { error: true, message: errorMsg || "An unknown error occurred" };
+		}
+	},
+
+	updateUser: async (credentials) => {
+		try {
+			const response = await apiClient.patch(
+				"/api/v1/auth/update-user",
+				credentials
+			);
+			return response.data;
+		} catch (error) {
 			const errorMsg = error?.response?.data?.message;
 			return { error: true, message: errorMsg || "An unknown error occurred" };
 		}
