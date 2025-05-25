@@ -68,7 +68,9 @@ const UserReviews = () => {
 					/>
 				</div>
 			)}
-			{!loading && results?.data?.length <= 0 && <NotFound />}
+			{!loading && results?.data?.length <= 0 && (
+				<NotFound submessage={"You do not have any review at the moment"} />
+			)}
 		</div>
 	);
 };

@@ -1,10 +1,9 @@
-import React from "react";
 import DefaultImage from "../../assets/images/defaultImage.png";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
 	return (
-		<Link to={`/products/${product?.id || 123456}`}>
+		<Link to={`/products/${product?.id}`}>
 			<div className="overflow-hidden shadow-sm bg-white hover:shadow-xl transition-shadow duration-300">
 				<img
 					className="w-full h-48 object-cover"
