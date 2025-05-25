@@ -17,7 +17,7 @@ import AddProduct from "./views/Product/AddProduct";
 import SingleProduct from "./views/Product/SingleProduct";
 import { ToastContainer } from "react-toastify";
 import ProductListing from "./views/Product/ProductListing";
-import ScrollToTop from "./utils";
+import { ScrollToTop } from "./utils";
 import ReviewListings from "./views/Review/ReviewsListing";
 
 function App() {
@@ -56,7 +56,6 @@ function App() {
 						<Route path="/profile" element={<CurrentUserProfile />} />
 						<Route path="/add-product" element={<AddProduct />} />
 						<Route path="/review" element={<WriteReview />} />
-
 					</Route>
 					{/* Other routes that can be accessed whether logged in or not */}
 					<Route path="/" element={<MainLayout />}>

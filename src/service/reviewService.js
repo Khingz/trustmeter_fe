@@ -30,6 +30,16 @@ const ReviewService = {
 			return { error: true, message: errorMsg || "An unknown error occurred" };
 		}
 	},
+
+	toggleReviewLike: async (reviewId) => {
+		try {
+			const response = await apiClient.post(`/api/v1/reviews/${reviewId}/like`);
+			return response.data;
+		} catch (error) {
+			const errorMsg = error?.response?.data?.message;
+			return { error: true, message: errorMsg || "An unknown error occurred" };
+		}
+	},
 };
 
 export default ReviewService;

@@ -68,7 +68,7 @@ const UserReviews = () => {
 					/>
 				</div>
 			)}
-			{!loading && results?.data?.length < 1 && <NotFound />}
+			{!loading && results?.data?.length <= 0 && <NotFound />}
 		</div>
 	);
 };

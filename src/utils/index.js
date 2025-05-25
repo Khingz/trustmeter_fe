@@ -28,17 +28,53 @@ export const formatDateToShortUS = (dateString) => {
 };
 
 export const ScrollToTop = () => {
-  const location = useLocation();
-  const navigationType = useNavigationType();
+	const location = useLocation();
+	const navigationType = useNavigationType();
 
-  useEffect(() => {
-    if (navigationType === "PUSH") {
-      window.scrollTo(0, 0);
-    }
-  }, [location, navigationType]);
+	useEffect(() => {
+		if (navigationType === "PUSH") {
+			window.scrollTo(0, 0);
+		}
+	}, [location, navigationType]);
 
-  return null;
+	return null;
 };
 
-export default ScrollToTop;
+export const updateLikeInReview = ({
+	setReviews,
+	userId,
+	newLike,
+	liked,
+}) => {
+	setReviews((prev) => {
+		const hasPendingLike = prev.likes.some(
+			(like) => like.user_id === userId && like.id === "pending"
+		);
+		if (hasPendingLike) {
+			return {
+				...prev,
+				likes: prev.likes.map((like) =>
+					like.user_id === userId && like.id === "pending" ? newLike : like
+				),
+			};
+		}
+		if (liked) {
+			return {
+				...prev,
+				likes: prev.likes.filter((like) => like.user_id !== userId),
+			};
+		} else {
+			return {
+				...prev,
+				likes: [...prev.likes, newLike],
+			};
+		}
+	});
+};
 
+export const removeLike = ({ setReviews, userId }) => {
+	setReviews((prev) => ({
+		...prev,
+		likes: prev.likes.filter((like) => like.user_id !== userId),
+	}));
+};
