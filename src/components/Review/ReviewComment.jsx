@@ -10,7 +10,6 @@ const CommentCard = ({ comment }) => {
 	const [liked, setLiked] = useState(false);
 	const { isLoggedIn } = useAuth();
 
-
 	const isLiked = false;
 
 
@@ -55,7 +54,7 @@ const CommentCard = ({ comment }) => {
 						) : (
 							<FaRegThumbsUp />
 						)}
-						<span className="text-sm">{0}</span>
+						<span className="text-sm">{comment?.likes.length}</span>
 					</button>
 				</div>
 			</div>

@@ -51,7 +51,6 @@ const DetailedReview = ({ handleClose, review, userId }) => {
 		try {
 			const data = { content: newComment };
 			const response = await ReviewService.addComment(review.id, data);
-			console.log(response.data);
 			updateCommentInReview({ setComments, comment: response.data });
 			setNewComment("");
 		} catch (error) {
