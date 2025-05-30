@@ -1,7 +1,13 @@
 import apiClient from "../utils/apiClient";
 
 const ReviewService = {
-	getReviews: async ({ page = 1, searchBy, searchTerm, pageSize, filters = {} }) => {
+	getReviews: async ({
+		page = 1,
+		searchBy,
+		searchTerm,
+		pageSize,
+		filters = {},
+	}) => {
 		try {
 			const params = new URLSearchParams();
 			params.append("page", page);
@@ -10,7 +16,7 @@ const ReviewService = {
 			if (filters && Object.keys(filters).length > 0) {
 				params.append("filters", JSON.stringify(filters));
 			}
-			if (pageSize) params.append("page_size", pageSize)
+			if (pageSize) params.append("page_size", pageSize);
 			const response = await apiClient.get(
 				`/api/v1/reviews?${params.toString()}`
 			);
@@ -38,6 +44,30 @@ const ReviewService = {
 		} catch (error) {
 			const errorMsg = error?.response?.data?.message;
 			return { error: true, message: errorMsg || "An unknown error occurred" };
+		}
+	},
+
+	getReviewComments: async (reviewId) => {
+		try {
+			const response = await apiClient.get(
+				`/api/v1/reviews/${reviewId}/comments`
+			);
+			return response.data;
+		} catch (error) {
+			const errorMsg = error?.response?.data?.message;
+			return { error: true, message: errorMsg || "An unknown error occurred" };
+		}
+	},
+
+	addComment: async (reviewId, body) => {
+		try {
+			const response = await apiClient.post(
+				`/api/v1/reviews/${reviewId}/comments`, body
+			);
+			return response.data;
+		} catch (error) {
+			const errorMsg = error?.response?.data?.message;
+			return { error: true, message: errorMsg || "An unknown error occurred"};
 		}
 	},
 };

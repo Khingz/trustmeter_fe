@@ -20,11 +20,28 @@ export const rating_label = ["Poor", "Fair", "Good", "Very Good", "Excellent"];
 
 export const formatDateToShortUS = (dateString) => {
 	const date = new Date(dateString);
-	return date.toLocaleDateString("en-US", {
-		month: "short",
-		day: "numeric",
-		year: "numeric",
-	});
+	const now = new Date();
+	const diffMs = now - date;
+
+	const diffMins = Math.floor(diffMs / (1000 * 60));
+	const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+	const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+	if (diffMins < 1) {
+		return "just now";
+	} else if (diffMins < 60) {
+		return `${diffMins} min${diffMins !== 1 ? "s" : ""} ago`;
+	} else if (diffHours < 24) {
+		return `${diffHours} hour${diffHours !== 1 ? "s" : ""} ago`;
+	} else if (diffDays < 5) {
+		return `${diffDays} day${diffDays !== 1 ? "s" : ""} ago`;
+	} else {
+		return date.toLocaleDateString("en-US", {
+			month: "short",
+			day: "numeric",
+			year: "numeric",
+		});
+	}
 };
 
 export const ScrollToTop = () => {
@@ -40,12 +57,7 @@ export const ScrollToTop = () => {
 	return null;
 };
 
-export const updateLikeInReview = ({
-	setReviews,
-	userId,
-	newLike,
-	liked,
-}) => {
+export const updateLikeInReview = ({ setReviews, userId, newLike, liked }) => {
 	setReviews((prev) => {
 		const hasPendingLike = prev.likes.some(
 			(like) => like.user_id === userId && like.id === "pending"
@@ -72,9 +84,45 @@ export const updateLikeInReview = ({
 	});
 };
 
+export const updateCommentInReview = ({ setComments, comment }) => {
+	setComments((prev) => {
+		const prevData = Array.isArray(prev?.data) ? prev.data : [];
+		const isTemp = comment.id.startsWith('temp-') || comment.id === 'temp-id';
+		const hasTemp = prevData.some((c) => c.id === 'temp-id' || c.id === comment.id);
+
+		if (isTemp && !hasTemp) {
+			return {
+				...prev,
+				data: [comment, ...prevData], 
+			};
+		}
+		if (!isTemp && prevData.some((c) => c.id === 'temp-id')) {
+			return {
+				...prev,
+				data: prevData.map((c) =>
+					c.id === 'temp-id' ? comment : c
+				),
+			};
+		}
+		return prev;
+	});
+};
+
+
 export const removeLike = ({ setReviews, userId }) => {
 	setReviews((prev) => ({
 		...prev,
 		likes: prev.likes.filter((like) => like.user_id !== userId),
 	}));
+};
+
+export const removeComment = ({ setComments, userId }) => {
+	setComments((prev) => ({
+		...prev,
+		data: prev.filter((com) => com.id.startsWith('temp-')),
+	}));
+};
+
+export const capitalize = (text) => {
+	return text.charAt(0).toUpperCase() + text.slice(1);
 };

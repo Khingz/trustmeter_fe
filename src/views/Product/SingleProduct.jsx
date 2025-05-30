@@ -63,6 +63,9 @@ const SingleProduct = () => {
 											{listing.name}
 										</h3>
 									</div>
+									<p className="mt-1 text-lg font-extralight text-gray-900 break-words">
+										{listing?.listing_url}
+									</p>
 								</div>
 
 								<button

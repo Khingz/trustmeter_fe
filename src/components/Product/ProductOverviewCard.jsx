@@ -6,8 +6,6 @@ import ReviewModalContainer from "../Review/ReviewModalContainer";
 const ProductOverviewCard = ({ product }) => {
 	const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
 
-	console.log(product);
-
 	const handleClick = () => {
 		setAddReviewModalOpen(true);
 	};
