@@ -58,12 +58,12 @@ const SingleProduct = () => {
 										alt={"listing_image"}
 										className="w-20 h-20 md:w-32 md:h-32 object-cover rounded-full bg-indigo-600 border border-gray-300"
 									/>
-									<div className="flex justify-start items-center md:gap-10 gap-4 md:mb-0 mb-4">
+									<div className="flex justify-start items-center md:gap-10 gap-4">
 										<h3 className="text-[2rem] md:text-[4rem] font-extralight mt-1 capitalize">
 											{listing.name}
 										</h3>
 									</div>
-									<p className="mt-1 text-lg font-extralight text-gray-900 break-words">
+									<p className="my-1 text-lg font-extralight text-gray-900 break-words">
 										{listing?.listing_url}
 									</p>
 								</div>

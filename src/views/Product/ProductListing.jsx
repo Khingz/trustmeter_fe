@@ -60,12 +60,12 @@ const ProductListing = () => {
 	return (
 		<div className="mt-28 px-4 md:px-12 mb-20">
 			<div className="flex items-center justify-between gap-8">
-				<h2 className="my-4 md:my-6 font-bold text:2xl md:text-4xl text-gray-700">
+				<h2 className="my-4 md:my-6 font-bold text-3xl md:text-4xl text-gray-700">
 					Product Listing
 				</h2>
 				<Link
 					to={"/add-product"}
-					className="w-max bg-indigo-500 px-4 py-4 text-white rounded-md"
+					className="w-max bg-indigo-500 md:p-4 p-2 text-white rounded-md"
 				>
 					Add Product
 				</Link>

@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import ReviewService from "../../service/reviewService";
 import { getFromLocalStorage } from "../../utils/localStorage";
 
+
 const DetailedReview = ({ handleClose, review, userId }) => {
 	const [comments, setComments] = useState([]);
 	const [newComment, setNewComment] = useState("");
@@ -27,8 +28,7 @@ const DetailedReview = ({ handleClose, review, userId }) => {
 			setAddCommentLoading(false);
 		} catch (error) {
 			console.log(error);
-			setAddCommentLoading(false)
-
+			setAddCommentLoading(false);
 		}
 	};
 

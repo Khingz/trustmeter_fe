@@ -12,7 +12,6 @@ const CommentCard = ({ comment }) => {
 
 	const isLiked = false;
 
-
 	const handleLike = () => {
 		if (liked) {
 			setLikes(likes - 1);
@@ -54,7 +53,7 @@ const CommentCard = ({ comment }) => {
 						) : (
 							<FaRegThumbsUp />
 						)}
-						<span className="text-sm">{comment?.likes.length}</span>
+						<span className="text-sm">{comment?.likes.length || 0}</span>
 					</button>
 				</div>
 			</div>

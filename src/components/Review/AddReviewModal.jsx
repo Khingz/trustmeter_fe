@@ -14,7 +14,6 @@ const AddReview = ({ product, setAddReviewModalOpen }) => {
 	const [rating, setRating] = React.useState(0);
 	const [comment, setComment] = React.useState("");
 	const [error, setError] = React.useState(null);
-	// const [loading, setLoading] = React.useState(false);
 
 	const { mutate, loading } = useAddReview();
 
@@ -42,7 +41,6 @@ const AddReview = ({ product, setAddReviewModalOpen }) => {
 		};
 
 		try {
-			// await ReviewService.addReview(reviewData);
 			mutate(reviewData);
 			setRating(0);
 			setComment("");
