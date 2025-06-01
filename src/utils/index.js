@@ -87,27 +87,26 @@ export const updateLikeInReview = ({ setReviews, userId, newLike, liked }) => {
 export const updateCommentInReview = ({ setComments, comment }) => {
 	setComments((prev) => {
 		const prevData = Array.isArray(prev?.data) ? prev.data : [];
-		const isTemp = comment.id.startsWith('temp-') || comment.id === 'temp-id';
-		const hasTemp = prevData.some((c) => c.id === 'temp-id' || c.id === comment.id);
+		const isTemp = comment.id.startsWith("temp-") || comment.id === "temp-id";
+		const hasTemp = prevData.some(
+			(c) => c.id === "temp-id" || c.id === comment.id
+		);
 
 		if (isTemp && !hasTemp) {
 			return {
 				...prev,
-				data: [comment, ...prevData], 
+				data: [comment, ...prevData],
 			};
 		}
-		if (!isTemp && prevData.some((c) => c.id === 'temp-id')) {
+		if (!isTemp && prevData.some((c) => c.id === "temp-id")) {
 			return {
 				...prev,
-				data: prevData.map((c) =>
-					c.id === 'temp-id' ? comment : c
-				),
+				data: prevData.map((c) => (c.id === "temp-id" ? comment : c)),
 			};
 		}
 		return prev;
 	});
 };
-
 
 export const removeLike = ({ setReviews, userId }) => {
 	setReviews((prev) => ({
@@ -119,7 +118,7 @@ export const removeLike = ({ setReviews, userId }) => {
 export const removeComment = ({ setComments, userId }) => {
 	setComments((prev) => ({
 		...prev,
-		data: prev.filter((com) => com.id.startsWith('temp-')),
+		data: prev.filter((com) => com.id.startsWith("temp-")),
 	}));
 };
 

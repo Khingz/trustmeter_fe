@@ -81,7 +81,7 @@ const ReviewCard = ({ review }) => {
 			</div>
 
 			<p className="text-gray-700 mb-4">
-				"{localReview?.comment.slice(0, 100)}..."
+				{localReview?.comment.slice(0, 100)}...
 			</p>
 
 			<StarRating rating={localReview?.rating} />

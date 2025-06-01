@@ -11,13 +11,15 @@ import CommentCard from "./ReviewComment";
 import { useEffect, useState } from "react";
 import ReviewService from "../../service/reviewService";
 import { getFromLocalStorage } from "../../utils/localStorage";
-
+import { useAddComment } from "../../hooks/useReview";
 
 const DetailedReview = ({ handleClose, review, userId }) => {
 	const [comments, setComments] = useState([]);
 	const [newComment, setNewComment] = useState("");
 	const [addCommentLoading, setAddCommentLoading] = useState(true);
 	const user = getFromLocalStorage("currentUser");
+
+	const { mutate: addComment } = useAddComment(review.id);
 
 	const getReviewComment = async (review_id) => {
 		setAddCommentLoading(false);
@@ -32,32 +34,44 @@ const DetailedReview = ({ handleClose, review, userId }) => {
 		}
 	};
 
-	const handleCommentSubmission = async (e) => {
+	const handleCommentSubmission = (e) => {
 		e.preventDefault();
-		const tempComment = {
-			id: "temp-id",
+
+		addComment({
 			content: newComment,
-			created_at: new Date().toISOString(),
-			review_id: review.id,
 			user_id: user.id,
-			likes: [],
-			user: {
-				id: user.id,
-				name: user.name,
-				email: user.email,
-			},
-		};
-		updateCommentInReview({ setComments, comment: tempComment });
-		try {
-			const data = { content: newComment };
-			const response = await ReviewService.addComment(review.id, data);
-			updateCommentInReview({ setComments, comment: response.data });
-			setNewComment("");
-		} catch (error) {
-			console.log(error);
-			setNewComment("");
-		}
+			user_name: user.name,
+			user_email: user.email,
+		});
+		setNewComment("");
 	};
+
+	// const handleCommentSubmission = async (e) => {
+	// 	e.preventDefault();
+	// 	const tempComment = {
+	// 		id: "temp-id",
+	// 		content: newComment,
+	// 		created_at: new Date().toISOString(),
+	// 		review_id: review.id,
+	// 		user_id: user.id,
+	// 		likes: [],
+	// 		user: {
+	// 			id: user.id,
+	// 			name: user.name,
+	// 			email: user.email,
+	// 		},
+	// 	};
+	// 	updateCommentInReview({ setComments, comment: tempComment });
+	// 	try {
+	// 		const data = { content: newComment };
+	// 		const response = await ReviewService.addComment(review.id, data);
+	// 		updateCommentInReview({ setComments, comment: response.data });
+	// 		setNewComment("");
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 		setNewComment("");
+	// 	}
+	// };
 
 	useEffect(() => {
 		getReviewComment(review.id);
@@ -108,6 +122,7 @@ const DetailedReview = ({ handleClose, review, userId }) => {
 								placeholder="Leave a comment..."
 								className="left-4 w-full h-24 p-2 border border-gray-300 rounded-md resize-none"
 								onChange={(e) => setNewComment(e.target.value)}
+								value={newComment}
 							></textarea>
 							<input
 								type="submit"

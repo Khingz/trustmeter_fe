@@ -36,3 +36,84 @@ export const useAddReview = () => {
 		},
 	});
 };
+
+export const useAddComment = (reviewId) => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: (data) => ReviewService.addComment(reviewId, data),
+
+		// Optimistic update
+		onMutate: async (newCommentData) => {
+			await queryClient.cancelQueries({ queryKey: ["reviews"] });
+
+			const previousReviews = queryClient.getQueryData(["reviews"]);
+
+			const tempComment = {
+				id: "temp-id",
+				content: newCommentData.content,
+				created_at: new Date().toISOString(),
+				review_id: reviewId,
+				user_id: newCommentData.user_id,
+				likes: [],
+				user: {
+					id: newCommentData.user_id,
+					name: newCommentData.user_name,
+					email: newCommentData.user_email,
+				},
+			};
+
+			// Update the review in the list
+			queryClient.setQueryData(["reviews"], (oldData) => {
+				if (!oldData) return oldData;
+
+				return {
+					...oldData,
+					data: oldData.data.map((review) =>
+						review.id === reviewId
+							? {
+									...review,
+									comments: [tempComment, ...(review.comments || [])],
+							  }
+							: review
+					),
+				};
+			});
+
+			return { previousReviews };
+		},
+
+		// Replace temp comment with real comment
+		onSuccess: (response, variables) => {
+			const newComment = response.data;
+
+			queryClient.setQueryData(["reviews"], (oldData) => {
+				if (!oldData) return oldData;
+
+				return {
+					...oldData,
+					data: oldData.data.map((review) =>
+						review.id === reviewId
+							? {
+									...review,
+									comments: review.comments.map((c) =>
+										c.id === "temp-id" ? newComment : c
+									),
+							  }
+							: review
+					),
+				};
+			});
+		},
+
+		// Rollback on error
+		onError: (err, variables, context) => {
+			queryClient.setQueryData(["reviews"], context.previousReviews);
+		},
+
+		// Always refetch as backup
+		onSettled: () => {
+			queryClient.invalidateQueries({ queryKey: ["reviews"] });
+		},
+	});
+};
