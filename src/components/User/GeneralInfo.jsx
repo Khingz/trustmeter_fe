@@ -54,6 +54,9 @@ const GeneralInfo = () => {
 			<AnimatePresence>
 				{error && <ErrorAlert message={error} />}
 			</AnimatePresence>
+			<div className="w-36 h-36 rounded-full border-2 border-indigo-100 shadow flex items-center justify-center font-bold text-6xl">
+				{user?.name.slice(0, 2).toUpperCase()}
+			</div>
 			<div className="my-6">
 				<form onSubmit={handleSubmit}>
 					<div className="my-2">

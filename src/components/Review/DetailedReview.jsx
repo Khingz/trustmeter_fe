@@ -46,33 +46,6 @@ const DetailedReview = ({ handleClose, review, userId }) => {
 		setNewComment("");
 	};
 
-	// const handleCommentSubmission = async (e) => {
-	// 	e.preventDefault();
-	// 	const tempComment = {
-	// 		id: "temp-id",
-	// 		content: newComment,
-	// 		created_at: new Date().toISOString(),
-	// 		review_id: review.id,
-	// 		user_id: user.id,
-	// 		likes: [],
-	// 		user: {
-	// 			id: user.id,
-	// 			name: user.name,
-	// 			email: user.email,
-	// 		},
-	// 	};
-	// 	updateCommentInReview({ setComments, comment: tempComment });
-	// 	try {
-	// 		const data = { content: newComment };
-	// 		const response = await ReviewService.addComment(review.id, data);
-	// 		updateCommentInReview({ setComments, comment: response.data });
-	// 		setNewComment("");
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		setNewComment("");
-	// 	}
-	// };
-
 	useEffect(() => {
 		getReviewComment(review.id);
 	}, [review]);

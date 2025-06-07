@@ -1,6 +1,6 @@
 import React from "react";
 
-const NotFound = ({submessage}) => {
+const NotFound = ({message, submessage}) => {
 	return (
 		<div className="flex flex-col items-center justify-center min-h-[300px] p-6 bg-white rounded-2xl shadow-sm">
 			<svg
@@ -17,7 +17,7 @@ const NotFound = ({submessage}) => {
 				/>
 			</svg>
 			<h2 className="text-2xl md:text-3xl font-semibold text-gray-700 mb-2">
-				No Item Found
+				{message || "No Item Found"}
 			</h2>
 			<p className="text-gray-500 text-center max-w-sm">
 				{submessage || "Sorry, we couldn't find this item"}

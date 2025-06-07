@@ -37,7 +37,7 @@ const ReviewListings = () => {
 
 	return (
 		<div className="mt-28 px-4 md:px-12 mb-20">
-			<h2 className="font-bold text:2xl md:text-4xl text-gray-700">
+			<h2 className="font-bold text-3xl md:text-4xl text-gray-700">
 				Review Listing
 			</h2>
 			<hr className="my-8" />

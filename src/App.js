@@ -19,6 +19,7 @@ import { ToastContainer } from "react-toastify";
 import ProductListing from "./views/Product/ProductListing";
 import { ScrollToTop } from "./utils";
 import ReviewListings from "./views/Review/ReviewsListing";
+import UserProfile from "./views/User/UserProfile";
 
 function App() {
 	return (
@@ -54,6 +55,7 @@ function App() {
 					{/* Routes that require login to be accessed */}
 					<Route element={<ProtectedRoute />}>
 						<Route path="/profile" element={<CurrentUserProfile />} />
+						<Route path="/users/:id" element={<UserProfile />} />
 						<Route path="/add-product" element={<AddProduct />} />
 						<Route path="/review" element={<WriteReview />} />
 					</Route>

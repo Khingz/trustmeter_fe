@@ -11,12 +11,15 @@ import DetailedReview from "./DetailedReview";
 import { FaThumbsUp, FaRegThumbsUp, FaComment } from "react-icons/fa";
 import { useAuth } from "../../context/authContext";
 import ReviewService from "../../service/reviewService";
+import { Link } from "react-router-dom";
 
 const ReviewCard = ({ review }) => {
 	const user_id = getFromLocalStorage("currentUser")?.id;
 	const [detailReviewModolOpen, setDetailReviewModolOpen] = useState(false);
 	const [localReview, setLocalReview] = useState(review);
 	const { isLoggedIn } = useAuth();
+
+	console.log(review)
 
 	const isLiked = localReview.likes.some((like) => like.user_id === user_id);
 
@@ -39,7 +42,6 @@ const ReviewCard = ({ review }) => {
 		try {
 			const response = await ReviewService.toggleReviewLike(review.id);
 			if (response.error) {
-				console.error("Error liking the review:", response.message);
 				removeLike({ setReviews: setLocalReview, userId: user_id });
 				return;
 			}
@@ -62,18 +64,22 @@ const ReviewCard = ({ review }) => {
 	return (
 		<div className="bg-white border border-gray-200 rounded-sm overflow-hidden p-4 flex flex-col justify-between">
 			<div className="flex items-center space-x-4 mb-4">
-				<div className="w-14 h-14 rounded-full flex justify-center items-center bg-gray-400 text-white font-bold text-xl">
-					<p>{localReview?.user?.name.slice(0, 2).toUpperCase()}</p>
-				</div>
+				<Link to={`/users/${localReview?.user_id}`}>
+					<div className="w-14 h-14 rounded-full flex justify-center items-center bg-gray-400 text-white font-bold text-xl">
+						<p>{localReview?.user?.name.slice(0, 2).toUpperCase()}</p>
+					</div>
+				</Link>
 				<div>
-					<h3 className="text-lg font-semibold capitalize">
-						{localReview?.user?.name}
-						{user_id === localReview?.user_id && (
-							<span className="ml-2 text-gray-400 text-sm italic font-light">
-								(You)
-							</span>
-						)}
-					</h3>
+					<Link to={`/users/${localReview?.user_id}`}>
+						<h3 className="text-lg font-semibold capitalize">
+							{localReview?.user?.name}
+							{user_id === localReview?.user_id && (
+								<span className="ml-2 text-gray-400 text-sm italic font-light">
+									(You)
+								</span>
+							)}
+						</h3>
+					</Link>
 					<p className="text-sm text-gray-500">
 						{formatDateToShortUS(localReview?.created_at)}
 					</p>

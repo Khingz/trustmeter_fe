@@ -83,7 +83,17 @@ const AuthService = {
 			const errorMsg = error?.response?.data?.message;
 			return { error: true, message: errorMsg || "An unknown error occurred" };
 		}
-	}
+	},
+
+	getUserById: async (userId) => {
+		try {
+			const response = await apiClient.get(`/api/v1/auth/user/${userId}`);
+			return response.data;
+		} catch (error) {
+			const errorMsg = error?.response?.data?.message;
+			return { error: true, message: errorMsg || "An unknown error occurred" };
+		}
+	},
 };
 
 export default AuthService;
