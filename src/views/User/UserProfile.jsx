@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FiMessageSquare, FiMail, FiCalendar, FiStar } from "react-icons/fi";
 import AuthService from "../../service/authService";
 import NotFound from "../../components/common/NotFound";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getFromLocalStorage } from "../../utils/localStorage";
 import { formatDateToShortUS } from "../../utils";
 import ReviewService from "../../service/reviewService";
@@ -17,10 +17,13 @@ const UserProfile = () => {
 	const [review, setReview] = useState(null);
 	const [reviewLoading, setReviewLoading] = useState(true);
 	const [userLoading, setUserLoading] = useState(true);
-
-	review && console.log(review);
+	const location = useLocation();
 
 	const currentUser = getFromLocalStorage("currentUser");
+
+	const handleMessageClick = (userId) => {
+		navigate(`/chat/${userId}`, { state: { from: location.pathname } });
+	};
 
 	const fetchReviews = async (params = {}) => {
 		setReviewLoading(true);
@@ -67,7 +70,7 @@ const UserProfile = () => {
 				user: id,
 			},
 		});
-	}, []);
+	}, [currentUser?.id]);
 
 	if (userLoading) {
 		return (
@@ -78,7 +81,7 @@ const UserProfile = () => {
 	}
 
 	return (
-		<div className="max-w-6xl mx-auto p-4 mt-24">
+		<div className="md:min-w-[60%] min-w-[100%] mx-auto p-4 md:mt-24 mt-16">
 			{!user && (
 				<NotFound
 					message={"No User Found"}
@@ -93,7 +96,10 @@ const UserProfile = () => {
 							<div className="w-36 h-36 rounded-full border-1 border-indigo-200 shadow flex items-center justify-center font-bold text-6xl">
 								{user?.name.slice(0, 2).toUpperCase()}
 							</div>
-							<button className="mt-6 flex items-center justify-center px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition shadow-md">
+							<button
+								onClick={() => handleMessageClick(id)}
+								className="mt-6 flex items-center justify-center px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition shadow-md"
+							>
 								<FiMessageSquare className="mr-2" />
 								Message
 							</button>
@@ -109,7 +115,7 @@ const UserProfile = () => {
 								</div>
 							</div>
 
-							<div className="mt-6 grid grid-cols-2 gap-4">
+							<div className="mt-6 grid md:grid-cols-2 gap-4">
 								<div className="flex items-center text-gray-600">
 									<FiMail className="mr-2 text-indigo-500" />
 									<span>{user.email}</span>

@@ -2,7 +2,6 @@ import { IoMdClose } from "react-icons/io";
 import {
 	capitalize,
 	formatDateToShortUS,
-	updateCommentInReview,
 } from "../../utils";
 import StarRating from "../StarRating";
 import DefaultImage from "../../assets/images/defaultImage.png";

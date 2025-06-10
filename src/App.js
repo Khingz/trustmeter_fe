@@ -20,6 +20,7 @@ import ProductListing from "./views/Product/ProductListing";
 import { ScrollToTop } from "./utils";
 import ReviewListings from "./views/Review/ReviewsListing";
 import UserProfile from "./views/User/UserProfile";
+import ChatPage from "./views/Chat";
 
 function App() {
 	return (
@@ -58,6 +59,7 @@ function App() {
 						<Route path="/users/:id" element={<UserProfile />} />
 						<Route path="/add-product" element={<AddProduct />} />
 						<Route path="/review" element={<WriteReview />} />
+						<Route path="/chat/:userId" element={<ChatPage />} />
 					</Route>
 					{/* Other routes that can be accessed whether logged in or not */}
 					<Route path="/" element={<MainLayout />}>

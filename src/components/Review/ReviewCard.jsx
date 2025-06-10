@@ -19,8 +19,6 @@ const ReviewCard = ({ review }) => {
 	const [localReview, setLocalReview] = useState(review);
 	const { isLoggedIn } = useAuth();
 
-	console.log(review)
-
 	const isLiked = localReview.likes.some((like) => like.user_id === user_id);
 
 	const handleReadMore = () => {
