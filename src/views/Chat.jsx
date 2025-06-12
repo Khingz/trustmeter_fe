@@ -1,83 +1,54 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import ChatWindow from "../components/chat/ChatWIndow";
 import MessageInput from "../components/chat/MessageInput";
 import ChatSidebar from "../components/chat/ChatSidebar";
-
-const dummyChats = [
-	{ id: "1", name: "Alice" },
-	{ id: "2", name: "Bob" },
-	{ id: "3", name: "Charlie" },
-	{ id: "4", name: "Alice" },
-	{ id: "5", name: "Bob" },
-	{ id: "6", name: "Charlie" },
-	{ id: "7", name: "Alice" },
-	{ id: "8", name: "Bob" },
-	{ id: "9", name: "Charlie" },
-	{ id: "10", name: "Alice" },
-	{ id: "11", name: "Bob" },
-	{ id: "12", name: "Charlie" },
-	{ id: "13", name: "Alice" },
-	{ id: "14", name: "Bob" },
-	{ id: "13", name: "Charlie" },
-	{ id: "15", name: "Alice" },
-	{ id: "16", name: "Bob" },
-	{ id: "17", name: "Charlie" },
-	{ id: "18", name: "Alice" },
-	{ id: "19", name: "Bob" },
-	{ id: "20", name: "Charlie" },
-	{ id: "21", name: "Alice" },
-	{ id: "22", name: "Bob" },
-	{ id: "23", name: "Charlie" },
-	{ id: "24", name: "Alice" },
-	{ id: "25", name: "Bob" },
-	{ id: "26", name: "Charlie" },
-	{ id: "27", name: "Alice" },
-	{ id: "28", name: "Bob" },
-	{ id: "29", name: "Charlie" },
-	{ id: "30", name: "Alice" },
-	{ id: "31", name: "Bob" },
-	{ id: "32", name: "Charlie" },
-	{ id: "33", name: "Alice" },
-	{ id: "34", name: "Bob" },
-	{ id: "35", name: "Charlie" },
-	{ id: "36", name: "Alice" },
-	{ id: "37", name: "Bob" },
-	{ id: "38", name: "Charlie" },
-];
+import ChatWindow from "../components/chat/ChatWIndow";
+import { getFromLocalStorage } from "../utils/localStorage";
+import { appConfig } from "../config";
 
 const Chat = () => {
-	const { userId } = useParams();
-	const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+	const { userId: recipientId } = useParams();
 	const [messages, setMessages] = useState([]);
+	const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+	const socketRef = useRef(null);
 
-	// Find the current active chat user
-	const activeUser = useMemo(
-		() => dummyChats.find((chat) => chat.id === userId),
-		[userId]
-	);
+	const token = getFromLocalStorage("access_token");
 
 	useEffect(() => {
-		// Dummy messages reset when chat ID changes
-		setMessages([
-			{ text: "Hey there!", fromSelf: false },
-			{ text: "Hello!", fromSelf: true },
-		]);
-	}, [userId]);
+		if (!token) return;
+
+		const socket = new WebSocket(`${appConfig.WEBSOCKET_BASE_URL}/chat?token=${token}`);
+		socketRef.current = socket;
+
+		socket.onopen = () => console.log("Connected to WebSocket");
+
+		socket.onmessage = (event) => {
+			setMessages((prev) => [...prev, { text: event.data, fromSelf: false }]);
+		};
+		socket.onclose = () => console.log("WebSocket disconnected");
+		return () => {
+			socket.close();
+		};
+	}, [token]);
 
 	const handleSend = (text) => {
 		setMessages((prev) => [...prev, { text, fromSelf: true }]);
+		socketRef.current?.send(
+			JSON.stringify({
+				to: recipientId,
+				message: text,
+			})
+		);
 	};
 
 	return (
-		<div className="flex h-screen overflow-x-hidden">
+		<div className="flex h-screen overflow-hidden">
 			<ChatSidebar
-				chats={dummyChats}
 				isCollapsed={sidebarCollapsed}
 				toggleSidebar={() => setSidebarCollapsed((prev) => !prev)}
 			/>
 			<div className="flex-1 flex flex-col">
-				<ChatWindow messages={messages} activeUser={activeUser} />
+				<ChatWindow messages={messages} />
 				<MessageInput onSend={handleSend} />
 			</div>
 		</div>

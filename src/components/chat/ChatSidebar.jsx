@@ -1,5 +1,4 @@
 import {
-	FiUser,
 	FiChevronLeft,
 	FiChevronRight,
 	FiLogOut,
@@ -36,7 +35,7 @@ const ChatSidebar = ({ chats, isCollapsed, toggleSidebar }) => {
 				</div>
 			</div>
 
-			<ul className={`flex-1 overflow-y-auto ${isCollapsed ? "hidden" : ""}`}>
+			{/* <ul className={`flex-1 overflow-y-auto ${isCollapsed ? "hidden" : ""}`}>
 				{chats.map((chat) => {
 					const isActive = chat.id === activeChatId;
 					return (
@@ -53,7 +52,7 @@ const ChatSidebar = ({ chats, isCollapsed, toggleSidebar }) => {
 						</Link>
 					);
 				})}
-			</ul>
+			</ul> */}
 
 			<div className="p-4 border-t mt-auto">
 				<button

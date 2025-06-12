@@ -9,7 +9,7 @@ const CurrentUserProfile = () => {
 	const [activeTab, setActiveTab] = useState("General");
 
 	return (
-		<div className="max-w-6xl mx-auto p-4 mt-24">
+		<div className="md:max-w-6xl min-w-[100%] mx-auto p-4 mt-24">
 			<h1 className="text-2xl font-bold mb-6">User Profile</h1>
 
 			<div className="border-b border-gray-200 mb-4">
