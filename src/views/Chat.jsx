@@ -3,42 +3,67 @@ import { useParams } from "react-router-dom";
 import MessageInput from "../components/chat/MessageInput";
 import ChatSidebar from "../components/chat/ChatSidebar";
 import ChatWindow from "../components/chat/ChatWIndow";
-import { getFromLocalStorage } from "../utils/localStorage";
-import { appConfig } from "../config";
+import { useWebSocket } from "../context/websocketContext";
 
 const Chat = () => {
 	const { userId: recipientId } = useParams();
 	const [messages, setMessages] = useState([]);
 	const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-	const socketRef = useRef(null);
+	const socket = useWebSocket();
+	const isSocketOpen = useRef(false);
 
-	const token = getFromLocalStorage("access_token");
-
+	// Monitor socket open state
 	useEffect(() => {
-		if (!token) return;
+		if (!socket) return;
 
-		const socket = new WebSocket(`${appConfig.WEBSOCKET_BASE_URL}/chat?token=${token}`);
-		socketRef.current = socket;
+		const handleOpen = () => {
+			console.log("✅ Socket connected");
+			isSocketOpen.current = true;
+		};
 
-		socket.onopen = () => console.log("Connected to WebSocket");
-
-		socket.onmessage = (event) => {
+		const handleMessage = (event) => {
+			console.log("📩 Incoming:", event.data);
 			setMessages((prev) => [...prev, { text: event.data, fromSelf: false }]);
 		};
-		socket.onclose = () => console.log("WebSocket disconnected");
-		return () => {
-			socket.close();
+
+		const handleClose = () => {
+			console.log("❌ Socket closed");
+			isSocketOpen.current = false;
 		};
-	}, [token]);
+
+		const handleError = (e) => {
+			console.error("Socket error:", e);
+			isSocketOpen.current = false;
+		};
+
+		// Use safe assignment methods
+		socket.onopen = handleOpen;
+		socket.onmessage = handleMessage;
+		socket.onclose = handleClose;
+		socket.onerror = handleError;
+
+		return () => {
+			socket.onmessage = null;
+			socket.onopen = null;
+			socket.onclose = null;
+			socket.onerror = null;
+		};
+	}, [socket]);
 
 	const handleSend = (text) => {
 		setMessages((prev) => [...prev, { text, fromSelf: true }]);
-		socketRef.current?.send(
-			JSON.stringify({
-				to: recipientId,
-				message: text,
-			})
-		);
+
+		if (socket && socket.readyState === WebSocket.OPEN) {
+			socket.send(
+				JSON.stringify({
+					to: recipientId,
+					message: text,
+				})
+			);
+			console.log("📤 Sent:", text);
+		} else {
+			console.warn("⚠️ Socket is not open. Current state:", socket?.readyState);
+		}
 	};
 
 	return (
