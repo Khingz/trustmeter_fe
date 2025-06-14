@@ -17,17 +17,17 @@ const Chat = () => {
 		if (!socket) return;
 
 		const handleOpen = () => {
-			console.log("✅ Socket connected");
+			console.log("Socket connected");
 			isSocketOpen.current = true;
 		};
 
 		const handleMessage = (event) => {
-			console.log("📩 Incoming:", event.data);
+			console.log("Incoming:", event.data);
 			setMessages((prev) => [...prev, { text: event.data, fromSelf: false }]);
 		};
 
 		const handleClose = () => {
-			console.log("❌ Socket closed");
+			console.log("Socket closed");
 			isSocketOpen.current = false;
 		};
 
@@ -36,7 +36,6 @@ const Chat = () => {
 			isSocketOpen.current = false;
 		};
 
-		// Use safe assignment methods
 		socket.onopen = handleOpen;
 		socket.onmessage = handleMessage;
 		socket.onclose = handleClose;
@@ -60,9 +59,6 @@ const Chat = () => {
 					message: text,
 				})
 			);
-			console.log("📤 Sent:", text);
-		} else {
-			console.warn("⚠️ Socket is not open. Current state:", socket?.readyState);
 		}
 	};
 

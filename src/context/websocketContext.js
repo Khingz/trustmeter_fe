@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { appConfig } from "../config";
 
 const WebSocketContext = createContext(null);
 
@@ -12,12 +13,11 @@ export const WebSocketProvider = ({ children }) => {
 			return;
 		}
 
-		const ws = new WebSocket(`ws://localhost:8000/ws/chat?token=${token}`);
+		const ws = new WebSocket(appConfig.WEBSOCKET_BASE_URL + "/chat?" + new URLSearchParams({ token }));
 		setSocket(ws);
 
-		ws.onopen = () => console.log("✅ WebSocket connected");
-		ws.onclose = () => console.log("🔌 WebSocket closed");
-		ws.onerror = (e) => console.error("❌ WebSocket error:", e);
+		ws.onopen = () => console.log("WebSocket connected");
+		ws.onclose = () => console.log("WebSocket closed");
 
 		return () => ws.close();
 	}, []);
